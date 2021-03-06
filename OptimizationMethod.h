@@ -3,12 +3,13 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include <functional>
 #include "OptimizationMethodDetailedResults.h"
 
 class OptimizationMethod {
-    std::unary_function<double, double> function;
+    std::function<double(double)> function;
 public:
-    explicit OptimizationMethod(std::unary_function<double, double> function) : function(function) {}
+    explicit OptimizationMethod(std::function<double(double)> function) : function(std::move(function)) {}
 
     virtual OptimizationMethodDetailedResults minimizeDetails(double left, double right, double epsilon) = 0;
 

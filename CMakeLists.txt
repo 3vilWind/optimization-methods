@@ -3,4 +3,4 @@ project(one_dimensional_optimization_methods)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(one_dimensional_optimization_methods main.cpp OptimizationMethod.cpp OptimizationMethod.h OptimizationMethodDetailedResults.cpp OptimizationMethodDetailedResults.h Point.cpp Point.h)
+add_executable(one_dimensional_optimization_methods main.cpp OptimizationMethod.cpp OptimizationMethod.h OptimizationMethodDetailedResults.cpp OptimizationMethodDetailedResults.h Point.cpp Point.h DichotomyOptimizationMethod.cpp DichotomyOptimizationMethod.h)

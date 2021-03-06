@@ -5,8 +5,8 @@ std::vector<Point> OptimizationMethod::evaluateFunction(double left, double righ
 
     double current = left;
     while (current <= right) {
-        current += step;
         result.emplace_back(current, function(current));
+        current += step;
     }
     return result;
 }

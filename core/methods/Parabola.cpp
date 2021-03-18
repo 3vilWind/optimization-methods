@@ -1,4 +1,5 @@
 #include "Parabola.h"
+#include "../Utils.h"
 
 OptimizationMethodDetailedResults Parabola::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
@@ -6,7 +7,7 @@ OptimizationMethodDetailedResults Parabola::minimize(double left, double right, 
     double x3 = right;
     double x2 = (left + right) / 2;
     double x_cur = x1, x_prev = x3;
-    while (fabs(x_cur - x_prev) > epsilon) {
+    while (abs(x_cur - x_prev) > epsilon) {
         double y1 = function(x1);
         double y2 = function(x2);
         double y3 = function(x3);
@@ -19,11 +20,9 @@ OptimizationMethodDetailedResults Parabola::minimize(double left, double right, 
         if (x1 < x_cur && x_cur < x2 && y_cur >= y2) {
             x1 = x_cur;
         } else if (x1 < x_cur && x_cur < x2 && y_cur < y2) {
-            x3 = x2;
-            x2 = x_cur;
+            shift2(x3, x2, x_cur);
         } else if (x_cur > x2 && x_cur < x3 && y_cur < y2) {
-            x1 = x2;
-            x2 = x_cur;
+            shift2(x1, x2, x_cur);
         } else if (x_cur > x2 && x_cur < x3 && y_cur > y2) {
             x3 = x_cur;
         }

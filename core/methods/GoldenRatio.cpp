@@ -1,30 +1,29 @@
 #include "GoldenRatio.h"
-#include <math.h>
+#include "../Utils.h"
+#include <cmath>
 
 OptimizationMethodDetailedResults GoldenRatio::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
     const double GOLDEN_PHI = (1 + sqrt(5)) / 2;
 
-    Point first_left(left,  function(left));
-    Point first_right(right, function(right));
-    result.iterations.push_back({{"left", {first_left}},
-                                 {"right", {first_right}}});
+    double x1 = left + (2 - GOLDEN_PHI) * (right - left);
+    double x2 = right - (2 - GOLDEN_PHI) * (right - left);
+    double y1 = function(x1);
+    double y2 = function(x2);
+
+    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(x1, y1, x2, y2));
 
     while (right - left > epsilon) {
-        double dist = (right - left) / GOLDEN_PHI;
-        double x1 = right - dist;
-        double x2 = left + dist;
-        double y1 = function(x1);
-        double y2 = function(x2);
         if (y1 >= y2) {
             left = x1;
+            shift2(x1, x2, right - (2 - GOLDEN_PHI) * (right - left));
+            shift2(y1, y2, function(x2));
         } else {
             right = x2;
+            shift2(x2, x1, left + (2 - GOLDEN_PHI) * (right - left));
+            shift2(y2, y1, function(x1));
         }
-        Point new_left(x1, y1);
-        Point new_right(x2, y2);
-        result.iterations.push_back({{"left", {new_left}},
-                                     {"right", {new_right}}});
+        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(x1, y1, x2, y2));
     }
     result.result = (left + right) / 2;
 

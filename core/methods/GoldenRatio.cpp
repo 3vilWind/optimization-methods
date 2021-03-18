@@ -26,6 +26,7 @@ OptimizationMethodDetailedResults GoldenRatio::minimize(double left, double righ
         result.iterations.push_back({{"left", {new_left}},
                                      {"right", {new_right}}});
     }
+    result.result = (left + right) / 2;
 
     return result;
 }

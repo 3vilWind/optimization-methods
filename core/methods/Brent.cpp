@@ -11,12 +11,12 @@ int sgn(double x) {
 
 OptimizationMethodDetailedResults Brent::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
-    const double K = (3 - sqrt(5)) / 2;
+    const double CGOLD = (3 - sqrt(5)) / 2;
     double x, w, v, fx, fw, fv, e, g;
     bool fl = false;
     double u = left;
-    double d = left - right;
-    x = w = v = left + K * (right - left);
+    double d = e = right - left;
+    x = w = v = left + CGOLD * (right - left);
     fx = fw = fv = function(x);
     while (right - left > epsilon) {
         g = e;
@@ -37,10 +37,10 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
         }
         if (!fl) {
             if (x < (left + right) / 2) {
-                u = x + K * (right - x);
+                u = x + CGOLD * (right - x);
                 e = right - x;
             } else {
-                u = x - K * (x - right);
+                u = x - CGOLD * (x - right);
                 e = x - right;
             }
         }

@@ -1,7 +1,7 @@
 #include "Dichotomy.h"
 
 OptimizationMethodDetailedResults
-Dichotomy::minimizeDetails(double left, double right, double epsilon) {
+Dichotomy::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
 
     Point first_left(left, function(left));

@@ -1,5 +1,5 @@
 #include "Brent.h"
-#include <math.h>
+#include <cmath>
 
 bool isDifferent(double a, double b, double c) {
     return a != b && b != c && a != c;
@@ -9,7 +9,7 @@ int sgn(double x) {
     return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 }
 
-OptimizationMethodDetailedResults Brent::minimizeDetails(double left, double right, double epsilon) {
+OptimizationMethodDetailedResults Brent::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
     const double K = (3 - sqrt(5)) / 2;
     double x, w, v, fx, fw, fv, e, g;

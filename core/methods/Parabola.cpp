@@ -1,6 +1,6 @@
 #include "Parabola.h"
 
-OptimizationMethodDetailedResults Parabola::minimizeDetails(double left, double right, double epsilon) {
+OptimizationMethodDetailedResults Parabola::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
     double x1 = left;
     double x3 = right;

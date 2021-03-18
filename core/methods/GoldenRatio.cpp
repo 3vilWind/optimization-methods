@@ -1,7 +1,7 @@
 #include "GoldenRatio.h"
 #include <math.h>
 
-OptimizationMethodDetailedResults GoldenRatio::minimizeDetails(double left, double right, double epsilon) {
+OptimizationMethodDetailedResults GoldenRatio::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
     const double GOLDEN_PHI = (1 + sqrt(5)) / 2;
 

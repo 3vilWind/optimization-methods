@@ -12,7 +12,7 @@ size_t countOperations (double left, double right, double epsilon) {
     }
     return result;
 }
-OptimizationMethodDetailedResults Fibonacci::minimizeDetails(double left, double right, double epsilon) {
+OptimizationMethodDetailedResults Fibonacci::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result = OptimizationMethodDetailedResults();
     int numberOfOperations = countOperations(left, right, epsilon);
     size_t count = 0;

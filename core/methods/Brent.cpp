@@ -1,74 +1,62 @@
 #include "Brent.h"
+#include "../Utils.h"
 #include <cmath>
 
-bool isDifferent(double a, double b, double c) {
-    return a != b && b != c && a != c;
-}
-
-int sgn(double x) {
-    return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
-}
 
 OptimizationMethodDetailedResults Brent::minimize(double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
+
     const double CGOLD = (3 - sqrt(5)) / 2;
-    double x, w, v, fx, fw, fv, e, g;
-    bool fl = false;
-    double u = left;
-    double d = e = right - left;
-    x = w = v = left + CGOLD * (right - left);
-    fx = fw = fv = function(x);
-    while (right - left > epsilon) {
-        g = e;
-        e = d;
-        double tol = epsilon / 10 + epsilon * abs(x);
-        if (abs(x - (left + right) / 2) + (right - left) / 2 <= 2 * tol) {
+    double d = 0.0, e = 0.0, fu, fv, fw, fx;
+    double p, q, r, tol1, tol2, u, v, w, x, xMiddle;
+    x = w = v = right;
+    fw = fv = fx = function(x);
+
+    while (true) {
+        xMiddle = (left + right) / 2;
+        tol1 = epsilon * abs(x);
+        tol2 = 2 * tol1;
+        if (abs(x - xMiddle) <= (tol2 - (right - left) / 2)) {
             break;
         }
-        if (isDifferent(x, w, v) && isDifferent(fx, fw, fv)) {
-            double a0 = fx;
-            double a1 = (fw - fx) / (w - x);
-            double a2 = ((fv - fx) / (v - x) - (fw - fx) / (w - x)) / (v - w);
-            u = (x + w - a1 / a2) / 2;
-            if (u >= left && u <= right && abs(u - x) < g / 2) {
-                u = x - sgn(x - (left + right) / 2.0) * tol;
-                fl = true;
-            }
-        }
-        if (!fl) {
-            if (x < (left + right) / 2) {
-                u = x + CGOLD * (right - x);
-                e = right - x;
-            } else {
-                u = x - CGOLD * (x - right);
-                e = x - right;
-            }
-        }
+        //parabola
+        if (abs(e) > tol1) {
+            r = (x - w) * (fx - fv);
+            q = (x - v) * (fx - fw);
+            p = (x - v) * q - (x - w) * r;
+            q = 2 * (q - r);
+            if (q > 0)
+                p = -p;
 
-        if (abs(u - x) < tol) {
-            u = x + sgn(u - x) * tol;
-        }
-
-        d = abs(u - x);
-        double fu = function(u);
-        if (fu < fx) {
-            if (u >= x) {
-                left = x;
-            } else {
-                right = x;
+            q = abs(q);
+            double tmp = e;
+            e = d;
+            if (abs(p) >= abs(0.5 * q * tmp) || p <= q * (left - x) || p >= q * (right - x))
+                d = CGOLD * (e = (x >= xMiddle ? left - x : right - x));
+            else {
+                d = p / q;
+                u = x + d;
+                if (u - left < tol2 || right - u < tol2)
+                    d = SIGN(tol1, xMiddle - x);
             }
-            v = w;
-            w = x;
-            x = u;
-            fv = fw;
-            fw = fx;
-            fx = fu;
+        //golden ratio
         } else {
-            if (u >= x) {
-                right = u;
-            } else {
+            d = CGOLD * (e = (x >= xMiddle ? left - x : right - x));
+        }
+        u = (abs(d) >= tol1 ? x + d : x + SIGN(tol1, d));
+        fu = function(u);
+        if (fu <= fx) {
+            if (u >= x)
+                left = x;
+            else
+                right = x;
+            shift3(v, w, x, u);
+            shift3(fv, fw, fx, fu);
+        } else {
+            if (u < x)
                 left = u;
-            }
+            else
+                right = u;
             if (fu <= fw || w == x) {
                 v = w;
                 w = u;
@@ -79,8 +67,8 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
                 fv = fu;
             }
         }
-
     }
+    result.result = x;
 
     return result;
 }

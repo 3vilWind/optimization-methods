@@ -1,6 +1,24 @@
 require('./styles.scss');
+// require("./core.js");
+import wasmBinary from "./core.wasm";
 
+import Module from "./core.js";
 import functionPlot from "function-plot";
+
+function _base64ToArrayBuffer(base64) {
+    var binary_string = window.atob(base64.split(';base64,')[1]);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+const modulePath = {
+    wasmBinary: _base64ToArrayBuffer(wasmBinary)
+};
+Module(modulePath).then(wasmInit);
 
 class OptimizationMethod {
     constructor(name) {
@@ -71,6 +89,15 @@ function renderPlot() {
             }
         ]
     });
+}
+
+
+function functionVar8(x) {
+    return -3 * x * Math.sin(0.75 * x) + Math.exp(-2 * x);
+}
+
+function wasmInit(module) {
+    console.log("ready");
 }
 
 attachMaxIterations();

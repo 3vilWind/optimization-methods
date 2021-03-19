@@ -11,7 +11,7 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
     double p, q, r, tol1, tol2, u, v, w, x, xMiddle;
     x = w = v = right;
     fw = fv = fx = function(x);
-
+    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, 0, right, 0));
     while (true) {
         xMiddle = (left + right) / 2;
         tol1 = epsilon * abs(x);
@@ -67,6 +67,7 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
                 fv = fu;
             }
         }
+        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, u, right, fu));
     }
     result.result = x;
 

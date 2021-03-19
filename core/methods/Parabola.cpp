@@ -7,6 +7,7 @@ OptimizationMethodDetailedResults Parabola::minimize(double left, double right, 
     double x2 = (left + right) / 2;
     double x3 = right;
     double y1 = function(x1), y2 = function(x2), y3 = function(x3);
+    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, 0, right, 0));
     while (abs(x3 - x1) > epsilon) {
         double a, b, c;
         getParabolaCoefficients(x1, y1, x2, y2, x3, y3, a, b, c);
@@ -30,6 +31,7 @@ OptimizationMethodDetailedResults Parabola::minimize(double left, double right, 
                 shift2(y3, y2, yMin);
             }
         }
+        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(x1, xMin, x3, yMin));
     }
     result.result = x2;
     return result;

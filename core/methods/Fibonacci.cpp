@@ -22,7 +22,7 @@ OptimizationMethodDetailedResults Fibonacci::minimize(double left, double right,
     double y1 = function(x1);
     double y2 = function(x2);
 
-    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(x1, y1, x2, y2));
+    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, y1, right, y2));
     for (int i = 1; i < n + 1; ++i) {
         if (y1 >= y2) {
             left = x1;
@@ -33,7 +33,7 @@ OptimizationMethodDetailedResults Fibonacci::minimize(double left, double right,
             shift2(x2, x1, left + fibonacci[n - i] / fibonacci[n - i + 2] * (right - left));
             shift2(y2, y1, function(x1));
         }
-        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(x1, y1, x2, y2));
+        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, y1, right, y2));
     }
     result.result = (left + right) / 2;
     return result;

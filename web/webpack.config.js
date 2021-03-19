@@ -28,7 +28,15 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
-            }
+            },
+            {
+                test: /\.wasm$/i,
+                type: 'asset/inline'
+            },
+            // {
+            //     test: /core\.js$/i,
+            //     type: 'asset/inline'
+            // },
         ]
     },
     plugins: [

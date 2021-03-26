@@ -81,7 +81,6 @@ function wasmInit(mod) {
     setMaxIterations(0);
     initIterationsSync();
     renderMethods();
-    // renderPlot(currentFunction, []);
 }
 
 function callOptimizationMethod(f, method, left, right, epsilon) {

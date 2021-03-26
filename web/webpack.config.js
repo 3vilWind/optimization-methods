@@ -32,11 +32,7 @@ module.exports = {
             {
                 test: /\.wasm$/i,
                 type: 'asset/inline'
-            },
-            // {
-            //     test: /core\.js$/i,
-            //     type: 'asset/inline'
-            // },
+            }
         ]
     },
     plugins: [

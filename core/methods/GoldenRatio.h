@@ -4,6 +4,5 @@
 
 class GoldenRatio : public OptimizationMethod {
 public:
-    using OptimizationMethod::OptimizationMethod;
-    OptimizationMethodDetailedResults minimize(double left, double right, double epsilon) override;
+    OptimizationMethodDetailedResults minimize(std::function<double(double)> function, double left, double right, double epsilon) override;
 };

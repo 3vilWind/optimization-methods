@@ -3,7 +3,8 @@
 #include <cmath>
 
 
-OptimizationMethodDetailedResults Brent::minimize(double left, double right, double epsilon) {
+OptimizationMethodDetailedResults
+Brent::minimize(std::function<double(double)> function, double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
 
     const double CGOLD = (3 - sqrt(5)) / 2;
@@ -11,7 +12,7 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
     double p, q, r, tol1, tol2, u, v, w, x, xMiddle;
     x = w = v = right;
     fw = fv = fx = function(x);
-    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, 0, right, 0));
+    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, right));
     while (true) {
         xMiddle = (left + right) / 2;
         tol1 = epsilon * abs(x);
@@ -19,8 +20,9 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
         if (abs(x - xMiddle) <= (tol2 - (right - left) / 2)) {
             break;
         }
-        //parabola
+
         if (abs(e) > tol1) {
+            //parabola
             r = (x - w) * (fx - fv);
             q = (x - v) * (fx - fw);
             p = (x - v) * q - (x - w) * r;
@@ -39,8 +41,8 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
                 if (u - left < tol2 || right - u < tol2)
                     d = SIGN(tol1, xMiddle - x);
             }
-        //golden ratio
         } else {
+            //golden ratio
             d = CGOLD * (e = (x >= xMiddle ? left - x : right - x));
         }
         u = (abs(d) >= tol1 ? x + d : x + SIGN(tol1, d));
@@ -67,7 +69,8 @@ OptimizationMethodDetailedResults Brent::minimize(double left, double right, dou
                 fv = fu;
             }
         }
-        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, u, right, fu));
+        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, right));
+        result.iterations.back()["min"] = u;
     }
     result.result = x;
 

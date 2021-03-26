@@ -1,18 +1,14 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <string>
 #include "Point.h"
 
 
 struct OptimizationMethodDetailedResults {
-    struct NamedShapePoints {
-        std::string name;
-        std::vector<Point> points;
-    };
-
     double result;
-    std::vector<std::vector<NamedShapePoints>> iterations;
+    std::vector<std::map<std::string, double>> iterations;
 
-    static std::vector<NamedShapePoints> getBorders(double x1, double y1, double x2, double y2);
+    static std::map<std::string, double> getBorders(double x1, double x2);
 };

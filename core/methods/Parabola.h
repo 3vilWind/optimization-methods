@@ -4,9 +4,7 @@
 
 class Parabola : public OptimizationMethod {
 public:
-    using OptimizationMethod::OptimizationMethod;
-
-    OptimizationMethodDetailedResults minimize(double left, double right, double epsilon) override;
+    OptimizationMethodDetailedResults minimize(std::function<double(double)> function, double left, double right, double epsilon) override;
 
     static void getParabolaCoefficients(double x1, double y1, double x2, double y2, double x3, double y3,
                                         double &a, double &b, double &c);

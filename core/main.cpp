@@ -15,12 +15,12 @@ double functionVar8(double x) {
 void printTable1(OptimizationMethodDetailedResults &results) {
     double prevLength = 2 * M_PI;
     for (int i = 0; i < results.iterations.size(); ++i) {
-        double curLength = results.iterations[i][1].points[0].x - results.iterations[i][0].points[0].x;
+        double curLength = results.iterations[i]["right"] - results.iterations[i]["left"];
         printf("%d %.5f %.5f %.5f %.5f %.5f\n", i,
-               results.iterations[i][0].points[0].x,
-               functionVar8(results.iterations[i][0].points[0].x),
-               results.iterations[i][1].points[0].x,
-               functionVar8(results.iterations[i][1].points[0].x),
+               results.iterations[i]["left"],
+               functionVar8(results.iterations[i]["left"]),
+               results.iterations[i]["right"],
+               functionVar8(results.iterations[i]["right"]),
                prevLength / curLength);
         prevLength = curLength;
     }
@@ -29,13 +29,13 @@ void printTable1(OptimizationMethodDetailedResults &results) {
 void printTableParabola(OptimizationMethodDetailedResults &results) {
     double prevLength = 2 * M_PI;
     for (int i = 0; i < results.iterations.size(); ++i) {
-        double curLength = results.iterations[i][1].points[0].x - results.iterations[i][0].points[0].x;
+        double curLength = results.iterations[i]["right"] - results.iterations[i]["left"];
         printf("%d %.5f %.5f %.5f %.5f %.5f\n", i,
-               results.iterations[i][0].points[0].x,
-               results.iterations[i][1].points[0].x,
+               results.iterations[i]["left"],
+               results.iterations[i]["right"],
                prevLength / curLength,
-               results.iterations[i][0].points[0].y,
-               results.iterations[i][1].points[0].y
+               results.iterations[i]["min"],
+               functionVar8(results.iterations[i]["min"])
         );
         prevLength = curLength;
     }
@@ -56,24 +56,24 @@ void printMultiModal() {
         return poly(x);
     };
 
-    Dichotomy dichotomy(counterFunction);
-    GoldenRatio goldenRatio(counterFunction);
-    Fibonacci fibonacci(counterFunction);
-    Parabola parabola(counterFunction);
-    Brent brent(counterFunction);
-    OptimizationMethodDetailedResults resultsDichotomy = dichotomy.minimize(-2, 2, 1e-10);
+    Dichotomy dichotomy;
+    GoldenRatio goldenRatio;
+    Fibonacci fibonacci;
+    Parabola parabola;
+    Brent brent;
+    OptimizationMethodDetailedResults resultsDichotomy = dichotomy.minimize(counterFunction,-2, 2, 1e-10);
     int dichotomyCalls = counter;
     counter = 0;
-    OptimizationMethodDetailedResults resultsGoldenRatio = goldenRatio.minimize(-2, 2, 1e-10);
+    OptimizationMethodDetailedResults resultsGoldenRatio = goldenRatio.minimize(counterFunction,-2, 2, 1e-10);
     int goldenRatioCalls = counter;
     counter = 0;
-    OptimizationMethodDetailedResults resultsFibonacci = fibonacci.minimize(-2, 2, 1e-10);
+    OptimizationMethodDetailedResults resultsFibonacci = fibonacci.minimize(counterFunction,-2, 2, 1e-10);
     int fibonacciCalls = counter;
     counter = 0;
-    OptimizationMethodDetailedResults resultsParabola = parabola.minimize(-2, 2, 1e-10);
+    OptimizationMethodDetailedResults resultsParabola = parabola.minimize(counterFunction,-2, 2, 1e-10);
     int parabolaCalls = counter;
     counter = 0;
-    OptimizationMethodDetailedResults resultsBrent = brent.minimize(-2, 2, 1e-10);
+    OptimizationMethodDetailedResults resultsBrent = brent.minimize(counterFunction,-2, 2, 1e-10);
     int brentCalls = counter;
     counter = 0;
 
@@ -95,24 +95,24 @@ void printComparisonTable() {
             counter++;
             return functionVar8(x);
         };
-        Dichotomy dichotomy(counterFunction);
-        dichotomy.minimize(0, 2 * M_PI, epsilon);
+        Dichotomy dichotomy;
+        dichotomy.minimize(counterFunction,0, 2 * M_PI, epsilon);
         int dichotomyCalls = counter;
         counter = 0;
-        GoldenRatio goldenRatio(counterFunction);
-        goldenRatio.minimize(0, 2 * M_PI, epsilon);
+        GoldenRatio goldenRatio;
+        goldenRatio.minimize(counterFunction,0, 2 * M_PI, epsilon);
         int goldenRatioCalls = counter;
         counter = 0;
-        Fibonacci fibonacci(counterFunction);
-        fibonacci.minimize(0, 2 * M_PI, epsilon);
+        Fibonacci fibonacci;
+        fibonacci.minimize(counterFunction,0, 2 * M_PI, epsilon);
         int fibonacciCalls = counter;
         counter = 0;
-        Parabola parabola(counterFunction);
-        parabola.minimize(0, 2 * M_PI, epsilon);
+        Parabola parabola;
+        parabola.minimize(counterFunction,0, 2 * M_PI, epsilon);
         int parabolaCalls = counter;
         counter = 0;
-        Brent brent(counterFunction);
-        brent.minimize(0, 2 * M_PI, epsilon);
+        Brent brent;
+        brent.minimize(counterFunction,0, 2 * M_PI, epsilon);
         int brentCalls = counter;
         counter = 0;
 
@@ -122,16 +122,16 @@ void printComparisonTable() {
 
 
 void printMethodTables() {
-    Dichotomy dichotomy(functionVar8);
-    GoldenRatio goldenRatio(functionVar8);
-    Fibonacci fibonacci(functionVar8);
-    Parabola parabola(functionVar8);
-    Brent brent(functionVar8);
-    OptimizationMethodDetailedResults resultsDichotomy = dichotomy.minimize(0, 2 * M_PI, 0.001);
-    OptimizationMethodDetailedResults resultsGoldenRatio = goldenRatio.minimize(0, 2 * M_PI, 0.001);
-    OptimizationMethodDetailedResults resultsFibonacci = fibonacci.minimize(0, 2 * M_PI, 0.001);
-    OptimizationMethodDetailedResults resultsParabola = parabola.minimize(0, 2 * M_PI, 0.001);
-    OptimizationMethodDetailedResults resultsBrent = brent.minimize(0, 2 * M_PI, 0.001);
+    Dichotomy dichotomy;
+    GoldenRatio goldenRatio;
+    Fibonacci fibonacci;
+    Parabola parabola;
+    Brent brent;
+    OptimizationMethodDetailedResults resultsDichotomy = dichotomy.minimize(functionVar8, 0, 2 * M_PI, 0.001);
+    OptimizationMethodDetailedResults resultsGoldenRatio = goldenRatio.minimize(functionVar8,0, 2 * M_PI, 0.001);
+    OptimizationMethodDetailedResults resultsFibonacci = fibonacci.minimize(functionVar8,0, 2 * M_PI, 0.001);
+    OptimizationMethodDetailedResults resultsParabola = parabola.minimize(functionVar8,0, 2 * M_PI, 0.001);
+    OptimizationMethodDetailedResults resultsBrent = brent.minimize(functionVar8,0, 2 * M_PI, 0.001);
 
     printf("Dichotomy\n");
     printTable1(resultsDichotomy);

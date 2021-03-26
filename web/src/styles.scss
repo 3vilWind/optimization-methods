@@ -1,3 +1,15 @@
 @charset "utf-8";
 @import "~bulma/bulma";
 @import "~bulma-slider";
+@import "~bulma-pageloader";
+
+.function-plot {
+  .annotations {
+    path {
+      stroke: red;
+    }
+  }
+  .top-right-legend {
+    visibility: hidden;
+  }
+}

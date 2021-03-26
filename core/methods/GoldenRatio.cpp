@@ -2,7 +2,7 @@
 #include "../Utils.h"
 #include <cmath>
 
-OptimizationMethodDetailedResults GoldenRatio::minimize(double left, double right, double epsilon) {
+OptimizationMethodDetailedResults GoldenRatio::minimize(std::function<double(double)> function, double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
     const double GOLDEN_PHI = (1 + sqrt(5)) / 2;
 
@@ -11,7 +11,7 @@ OptimizationMethodDetailedResults GoldenRatio::minimize(double left, double righ
     double y1 = function(x1);
     double y2 = function(x2);
 
-    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, 0, right, 0));
+    result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, right));
 
     while (right - left > epsilon) {
         if (y1 >= y2) {
@@ -23,7 +23,7 @@ OptimizationMethodDetailedResults GoldenRatio::minimize(double left, double righ
             shift2(x2, x1, left + (2 - GOLDEN_PHI) * (right - left));
             shift2(y2, y1, function(x1));
         }
-        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, 0, right, 0));
+        result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, right));
     }
     result.result = (left + right) / 2;
 

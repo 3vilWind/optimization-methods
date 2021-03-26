@@ -7,11 +7,8 @@
 #include "OptimizationMethodDetailedResults.h"
 
 class OptimizationMethod {
-protected:
-    std::function<double(double)> function;
-
 public:
-    explicit OptimizationMethod(std::function<double(double)> function) : function(std::move(function)) {}
-
-    virtual OptimizationMethodDetailedResults minimize(double left, double right, double epsilon) = 0;
+    virtual OptimizationMethodDetailedResults
+    minimize(std::function<double(double)> function, double left, double right, double epsilon) = 0;
+    virtual ~OptimizationMethod() = default;
 };

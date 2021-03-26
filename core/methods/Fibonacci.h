@@ -8,7 +8,6 @@ private:
 
     size_t countOperations (double left, double right, double epsilon);
 public:
-    using OptimizationMethod::OptimizationMethod;
-    OptimizationMethodDetailedResults minimize(double left, double right, double epsilon) override;
+    OptimizationMethodDetailedResults minimize(std::function<double(double)> function, double left, double right, double epsilon) override;
 };
 

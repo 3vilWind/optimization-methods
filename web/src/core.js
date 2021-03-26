@@ -3011,6 +3011,7 @@ var asmLibraryArg = {
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
   "getTempRet0": _getTempRet0,
+  "invoke_ddddddd": invoke_ddddddd,
   "invoke_did": invoke_did,
   "invoke_dii": invoke_dii,
   "invoke_i": invoke_i,
@@ -3023,6 +3024,7 @@ var asmLibraryArg = {
   "invoke_iiiiii": invoke_iiiiii,
   "invoke_iij": invoke_iij,
   "invoke_v": invoke_v,
+  "invoke_vddddddiii": invoke_vddddddiii,
   "invoke_vidd": invoke_vidd,
   "invoke_vii": invoke_vii,
   "invoke_viii": invoke_viii,
@@ -3282,6 +3284,28 @@ function invoke_iiddd(index,a1,a2,a3,a4) {
   var sp = stackSave();
   try {
     return wasmTable.get(index)(a1,a2,a3,a4);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0 && e !== 'longjmp') throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_vddddddiii(index,a1,a2,a3,a4,a5,a6,a7,a8,a9) {
+  var sp = stackSave();
+  try {
+    wasmTable.get(index)(a1,a2,a3,a4,a5,a6,a7,a8,a9);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0 && e !== 'longjmp') throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_ddddddd(index,a1,a2,a3,a4,a5,a6) {
+  var sp = stackSave();
+  try {
+    return wasmTable.get(index)(a1,a2,a3,a4,a5,a6);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0 && e !== 'longjmp') throw e;

@@ -14,6 +14,8 @@ Brent::minimize(std::function<double(double)> function, double left, double righ
     fw = fv = fx = function(x);
     result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, right));
     while (true) {
+        bool parabolaAccepted = false;
+        double a, b, c;
         xMiddle = (left + right) / 2;
         tol1 = epsilon * abs(x);
         tol2 = 2 * tol1;
@@ -22,7 +24,6 @@ Brent::minimize(std::function<double(double)> function, double left, double righ
         }
 
         if (abs(e) > tol1) {
-            //parabola
             r = (x - w) * (fx - fv);
             q = (x - v) * (fx - fw);
             p = (x - v) * q - (x - w) * r;
@@ -34,12 +35,16 @@ Brent::minimize(std::function<double(double)> function, double left, double righ
             double tmp = e;
             e = d;
             if (abs(p) >= abs(0.5 * q * tmp) || p <= q * (left - x) || p >= q * (right - x))
+                //golden ratio
                 d = CGOLD * (e = (x >= xMiddle ? left - x : right - x));
             else {
+                //parabola
                 d = p / q;
                 u = x + d;
                 if (u - left < tol2 || right - u < tol2)
                     d = SIGN(tol1, xMiddle - x);
+                parabolaAccepted = true;
+                getParabolaCoefficients(w, fw, x, fx, v, fv, a, b, c);
             }
         } else {
             //golden ratio
@@ -70,6 +75,11 @@ Brent::minimize(std::function<double(double)> function, double left, double righ
             }
         }
         result.iterations.push_back(OptimizationMethodDetailedResults::getBorders(left, right));
+        if (parabolaAccepted) {
+            result.iterations.back()["parabolaA"] = a;
+            result.iterations.back()["parabolaB"] = b;
+            result.iterations.back()["parabolaC"] = c;
+        }
         result.iterations.back()["min"] = u;
     }
     result.result = x;

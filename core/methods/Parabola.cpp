@@ -1,7 +1,8 @@
 #include "Parabola.h"
 #include "../Utils.h"
 
-OptimizationMethodDetailedResults Parabola::minimize(std::function<double(double)> function, double left, double right, double epsilon) {
+OptimizationMethodDetailedResults
+Parabola::minimize(std::function<double(double)> function, double left, double right, double epsilon) {
     OptimizationMethodDetailedResults result;
     double x1 = left;
     double x2 = (left + right) / 2;
@@ -41,16 +42,4 @@ OptimizationMethodDetailedResults Parabola::minimize(std::function<double(double
     return result;
 }
 
-void Parabola::getParabolaCoefficients(double x1, double y1, double x2, double y2, double x3, double y3,
-                                       double &a, double &b, double &c) {
-    a = (x2 * y1 - x3 * y1 - x1 * y2 + x3 * y2 + x1 * y3 - x2 * y3) / ((x2 - x1) * (x2 - x3) * (x3 - x1));
-    b = (x2 * x2 * y1 - x3 * x3 * y1 - x1 * x1 * y2 + x1 * x1 * y3 - x2 * x2 * y3) /
-        ((x2 - x1) * (x1 - x3) * (x2 - x3));
-    c = (-x2 * x2 * x3 * y1 + x2 * x3 * x3 * y1 + x1 * x1 * x3 * y2 - x1 * x3 * x3 * y2 - x1 * x1 * x2 * y3 +
-         x1 * x2 * x2 * y3) / ((x3 - x2) * (x1 * x1 - x1 * x2 - x1 * x3 + x2 * x3));
-}
 
-double Parabola::getParabolaMinimum(double x1, double y1, double x2, double y2, double x3, double y3) {
-    return x2 - ((x2 - x1) * (x2 - x1) * (y2 - y3) - (x2 - x3) * (x2 - x3) * (y2 - y1)) /
-                (2 * ((x2 - x1) * (y2 - y3) - (x2 - x3) * (y2 - y1)));
-}

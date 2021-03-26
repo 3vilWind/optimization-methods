@@ -1,5 +1,11 @@
-import {setMaxIterations, renderPlot, drawBorders, drawResult, getCurrentIteration} from "./renderUtils";
-import annotations from "function-plot/dist/helpers/annotations";
+import {
+    drawBorders,
+    drawPoint, fixParabola,
+    getCurrentIteration,
+    renderParabola,
+    renderPlot,
+    setMaxIterations
+} from "./renderUtils";
 
 
 class OptimizationMethod {
@@ -7,11 +13,13 @@ class OptimizationMethod {
         setMaxIterations(results.iterations.length - 1);
     }
 
-    renderBorders(results) {
+    renderBorders(results, moreData = []) {
+        if (moreData.length === 0)
+            fixParabola();
         const iteration = getCurrentIteration();
-        const additionalData = drawResult(results);
+        const additionalData = drawPoint(results);
         const additionalAnnotations = drawBorders(results, iteration);
-        renderPlot(results.function, this.displayName, additionalData, additionalAnnotations);
+        renderPlot(results.function, this.displayName, [...additionalData, ...moreData], additionalAnnotations);
     }
 }
 
@@ -65,7 +73,8 @@ class Parabola extends OptimizationMethod {
 
     renderResults(results) {
         super.renderResults(results);
-        this.renderBorders(results);
+        const iteration = getCurrentIteration();
+        this.renderBorders(results, renderParabola(results.iterations[iteration]));
     }
 }
 
@@ -78,7 +87,8 @@ class Brent extends OptimizationMethod {
 
     renderResults(results) {
         super.renderResults(results);
-        this.renderBorders(results);
+        const iteration = getCurrentIteration();
+        this.renderBorders(results, renderParabola(results.iterations[iteration]));
     }
 }
 

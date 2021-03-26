@@ -5,7 +5,7 @@ import Module from "./core.js";
 
 import {base64ToBytes} from "./utils";
 import {Brent, Dichotomy, Fibonacci, GoldenRatio, Parabola} from "./methods";
-import {renderPlot, setMaxIterations} from "./renderUtils";
+import {setMaxIterations} from "./renderUtils";
 import {parse} from "mathjs";
 
 const modulePath = {

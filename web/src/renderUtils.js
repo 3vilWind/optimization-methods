@@ -42,18 +42,18 @@ function renderPlot(f, title, additionalData = [], additionalAnnotations = []) {
         options.xAxis = currentOptions.xAxis;
         options.yAxis = currentOptions.yAxis;
     }
-    // update the scales's metadata
+
     let plot = functionPlot(options);
     if (currentPlot !== null) {
         plot.meta.zoomBehavior = currentPlot.meta.zoomBehavior;
     }
-    // plot.canvas.draw();
+
     currentOptions = options;
     currentPlot = plot;
-    // console.log(options.xAxis.domain);
+
 }
 
-function drawResult(results) {
+function drawPoint(results) {
     return [{
         points: [
             [results.result, results.function(results.result)],
@@ -75,5 +75,21 @@ function drawBorders(results, iteration) {
     ];
 }
 
+function renderParabola(iteration) {
+    if (iteration.parabolaA !== undefined && iteration.parabolaB !== undefined && iteration.parabolaC !== undefined) {
+        return [{
+            fn: `${iteration.parabolaA} * x^2 + ${iteration.parabolaB} * x + ${iteration.parabolaC}`,
+            graphType: "polyline"
+        }];
+    }
+    return [];
+}
 
-export {setMaxIterations, renderPlot, drawBorders, drawResult, getCurrentIteration};
+
+function fixParabola() {
+    const glitchLine = document.querySelector("#root-plot .canvas .graph .line-2");
+    if (glitchLine !== null)
+        glitchLine.parentElement.remove();
+}
+
+export {setMaxIterations, renderPlot, drawBorders, drawPoint, getCurrentIteration, renderParabola, fixParabola};

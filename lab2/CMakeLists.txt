@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.17)
+project(one_dimensional_optimization_methods)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(one_dimensional_optimization_methods main.cpp ../lab1/core/OptimizationMethod.cpp ../lab1/core/OptimizationMethod.h ../lab1/core/OptimizationMethodDetailedResults.cpp ../lab1/core/OptimizationMethodDetailedResults.h ../lab1/core/methods/Dichotomy.cpp ../lab1/core/methods/Dichotomy.h ../lab1/core/methods/GoldenRatio.cpp ../lab1/core/methods/GoldenRatio.h ../lab1/core/methods/Fibonacci.cpp ../lab1/core/methods/Fibonacci.h ../lab1/core/methods/Parabola.cpp ../lab1/core/methods/Parabola.h ../lab1/core/methods/Brent.cpp ../lab1/core/methods/Brent.h ../lab1/core/Utils.cpp ../lab1/core/Utils.h SquareMatrix.h Vector.cpp Vector.h methods/ConjugateGradientMethod.cpp methods/ConjugateGradientMethod.h methods/GradientDescent.cpp methods/GradientDescent.h methods/GradientSteepestDescent.cpp methods/GradientSteepestDescent.h GradientMethod.h GradientMethod.cpp GradientMethodDetailedResult.h GradientMethodDetailedResult.cpp Matrix.cpp Matrix.h DiagonalMatrix.cpp DiagonalMatrix.h SquareMatrix.cpp Utils.cpp Utils.h)

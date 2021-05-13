@@ -1,6 +1,7 @@
 #include "Vector.h"
 #include <cmath>
 #include <string>
+#include <utility>
 #include "Utils.h"
 
 Vector::Vector() = default;
@@ -9,13 +10,17 @@ Vector::Vector(size_t size) {
     this->vector.resize(size);
 }
 
-Vector::Vector(std::vector<double> vector) : vector(vector) {}
+Vector::Vector(std::vector<double> vector) : vector(std::move(vector)) {}
 
-size_t Vector::size() { return vector.size(); }
+size_t Vector::size() {
+    return vector.size();
+}
 
-double Vector::get(size_t index) { return vector.at(index); }
+double Vector::get(size_t index) {
+    return vector.at(index);
+}
 
-Vector Vector::add(Vector v1, Vector v2) {
+Vector Vector::add(Vector &v1, Vector &v2) {
     std::vector<double> ans;
     for (size_t i = 0; i < v1.size(); ++i) {
         ans.push_back(v1.get(i) + v2.get(i));
@@ -23,11 +28,11 @@ Vector Vector::add(Vector v1, Vector v2) {
     return Vector(ans);
 }
 
-Vector Vector::add(Vector v) {
+Vector Vector::add(Vector &v) {
     return add(v, *this);
 }
 
-double Vector::scalar_multiplication(Vector v1, Vector v2) {
+double Vector::scalar_multiplication(Vector &v1, Vector &v2) {
     double ans = 0;
     for (size_t i = 0; i < v1.size(); ++i) {
         ans += v1.get(i) * v2.get(i);
@@ -35,7 +40,7 @@ double Vector::scalar_multiplication(Vector v1, Vector v2) {
     return ans;
 }
 
-double Vector::scalar_multiplication(Vector v) {
+double Vector::scalar_multiplication(Vector &v) {
     return scalar_multiplication(v, *this);
 }
 
@@ -43,7 +48,7 @@ double Vector::norm() {
     return sqrt(scalar_multiplication(*this, *this));
 }
 
-Vector Vector::number_multiplication(Vector v, double x) {
+Vector Vector::number_multiplication(Vector &v, double x) {
     std::vector<double> ans;
     for (size_t i = 0; i < v.size(); ++i) {
         ans.push_back(v.get(i) * x);

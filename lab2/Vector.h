@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 class Vector {
 private:
@@ -17,17 +18,17 @@ public:
 
     double get(size_t index);
 
-    static Vector add(Vector v1, Vector v2);
+    static Vector add(Vector &v1, Vector &v2);
 
-    Vector add(Vector v);
+    Vector add(Vector &v);
 
-    static double scalar_multiplication(Vector v1, Vector v2);
+    static double scalar_multiplication(Vector &v1, Vector &v2);
 
-    double scalar_multiplication(Vector v);
+    double scalar_multiplication(Vector &v);
 
     double norm();
 
-    static Vector number_multiplication(Vector v, double x);
+    static Vector number_multiplication(Vector &v, double x);
 
     Vector number_multiplication(double x);
 

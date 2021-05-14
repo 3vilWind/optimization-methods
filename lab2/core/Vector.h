@@ -14,27 +14,27 @@ public:
 
     explicit Vector(size_t size);
 
-    size_t size();
+    size_t size() const;
 
-    double get(size_t index);
+    double get(size_t index) const;
 
-    static Vector add(Vector &v1, Vector &v2);
+    static Vector add(const Vector &v1, const Vector &v2);
 
-    Vector add(Vector &v);
+    Vector add(const Vector &v) const;
 
-    static double scalar_multiplication(Vector &v1, Vector &v2);
+    static double scalar_multiplication(const Vector &v1, const Vector &v2);
 
-    double scalar_multiplication(Vector &v);
+    double scalar_multiplication(const Vector &v) const;
 
-    double norm();
+    double norm() const;
 
-    static Vector number_multiplication(Vector &v, double x);
+    static Vector number_multiplication(const Vector &v, double x);
 
-    Vector number_multiplication(double x);
+    Vector number_multiplication(double x) const;
 
-    Vector opposite();
+    Vector opposite() const;
 
-    std::string to_string();
+    std::string to_string() const;
 
     static Vector random_vector(size_t size, double k);
 };

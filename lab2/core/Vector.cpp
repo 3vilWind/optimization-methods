@@ -12,15 +12,15 @@ Vector::Vector(size_t size) {
 
 Vector::Vector(std::vector<double> vector) : vector(std::move(vector)) {}
 
-size_t Vector::size() {
+size_t Vector::size() const {
     return vector.size();
 }
 
-double Vector::get(size_t index) {
+double Vector::get(size_t index) const {
     return vector.at(index);
 }
 
-Vector Vector::add(Vector &v1, Vector &v2) {
+Vector Vector::add(const Vector &v1, const Vector &v2) {
     std::vector<double> ans;
     for (size_t i = 0; i < v1.size(); ++i) {
         ans.push_back(v1.get(i) + v2.get(i));
@@ -28,11 +28,11 @@ Vector Vector::add(Vector &v1, Vector &v2) {
     return Vector(ans);
 }
 
-Vector Vector::add(Vector &v) {
+Vector Vector::add(const Vector &v) const {
     return add(v, *this);
 }
 
-double Vector::scalar_multiplication(Vector &v1, Vector &v2) {
+double Vector::scalar_multiplication(const Vector &v1, const Vector &v2) {
     double ans = 0;
     for (size_t i = 0; i < v1.size(); ++i) {
         ans += v1.get(i) * v2.get(i);
@@ -40,15 +40,15 @@ double Vector::scalar_multiplication(Vector &v1, Vector &v2) {
     return ans;
 }
 
-double Vector::scalar_multiplication(Vector &v) {
+double Vector::scalar_multiplication(const Vector &v) const {
     return scalar_multiplication(v, *this);
 }
 
-double Vector::norm() {
+double Vector::norm() const {
     return sqrt(scalar_multiplication(*this, *this));
 }
 
-Vector Vector::number_multiplication(Vector &v, double x) {
+Vector Vector::number_multiplication(const Vector &v, double x) {
     std::vector<double> ans;
     for (size_t i = 0; i < v.size(); ++i) {
         ans.push_back(v.get(i) * x);
@@ -56,15 +56,15 @@ Vector Vector::number_multiplication(Vector &v, double x) {
     return Vector(ans);
 }
 
-Vector Vector::number_multiplication(double x) {
+Vector Vector::number_multiplication(double x) const {
     return Vector::number_multiplication(*this, x);
 }
 
-Vector Vector::opposite() {
+Vector Vector::opposite() const {
     return Vector::number_multiplication(-1);
 }
 
-std::string Vector::to_string() {
+std::string Vector::to_string() const {
     std::string ans;
     for (double x : vector) {
         ans += std::to_string(x) + " ";

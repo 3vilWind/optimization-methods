@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.17)
-project(one_dimensional_optimization_methods)
+project(multi_dimensional_optimization_methods)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(one_dimensional_optimization_methods main.cpp ../lab1/core/OptimizationMethod.cpp ../lab1/core/OptimizationMethod.h ../lab1/core/OptimizationMethodDetailedResults.cpp ../lab1/core/OptimizationMethodDetailedResults.h ../lab1/core/methods/Dichotomy.cpp ../lab1/core/methods/Dichotomy.h ../lab1/core/methods/GoldenRatio.cpp ../lab1/core/methods/GoldenRatio.h ../lab1/core/methods/Fibonacci.cpp ../lab1/core/methods/Fibonacci.h ../lab1/core/methods/Parabola.cpp ../lab1/core/methods/Parabola.h ../lab1/core/methods/Brent.cpp ../lab1/core/methods/Brent.h ../lab1/core/Utils.cpp ../lab1/core/Utils.h SquareMatrix.h Vector.cpp Vector.h methods/ConjugateGradientMethod.cpp methods/ConjugateGradientMethod.h methods/GradientDescent.cpp methods/GradientDescent.h methods/GradientSteepestDescent.cpp methods/GradientSteepestDescent.h GradientMethod.h GradientMethod.cpp GradientMethodDetailedResult.h GradientMethodDetailedResult.cpp Matrix.cpp Matrix.h DiagonalMatrix.cpp DiagonalMatrix.h SquareMatrix.cpp Utils.cpp Utils.h)
+set(LAB1_PATH "../../lab1")
+
+include_directories(../../)
+
+add_executable(multi_dimensional_optimization_methods main.cpp ${LAB1_PATH}/core/OptimizationMethod.cpp ${LAB1_PATH}/core/OptimizationMethod.h ${LAB1_PATH}/core/OptimizationMethodDetailedResults.cpp ${LAB1_PATH}/core/OptimizationMethodDetailedResults.h ${LAB1_PATH}/core/methods/Dichotomy.cpp ${LAB1_PATH}/core/methods/Dichotomy.h ${LAB1_PATH}/core/methods/GoldenRatio.cpp ${LAB1_PATH}/core/methods/GoldenRatio.h ${LAB1_PATH}/core/methods/Fibonacci.cpp ${LAB1_PATH}/core/methods/Fibonacci.h ${LAB1_PATH}/core/methods/Parabola.cpp ${LAB1_PATH}/core/methods/Parabola.h ${LAB1_PATH}/core/methods/Brent.cpp ${LAB1_PATH}/core/methods/Brent.h ${LAB1_PATH}/core/Utils.cpp ${LAB1_PATH}/core/Utils.h SquareMatrix.h Vector.cpp Vector.h methods/ConjugateGradientMethod.cpp methods/ConjugateGradientMethod.h methods/GradientDescent.cpp methods/GradientDescent.h methods/GradientSteepestDescent.cpp methods/GradientSteepestDescent.h GradientMethod.h GradientMethod.cpp GradientMethodDetailedResult.h GradientMethodDetailedResult.cpp Matrix.cpp Matrix.h DiagonalMatrix.cpp DiagonalMatrix.h SquareMatrix.cpp Utils.cpp Utils.h)
+

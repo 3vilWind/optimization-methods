@@ -1,5 +1,5 @@
 #include "GradientSteepestDescent.h"
-#include "../../lab1/core/methods/Brent.h"
+#include "lab1/core/methods/Brent.h"
 
 GradientMethodDetailedResult
 GradientSteepestDescent::minimize(std::function<double(Vector)> function,

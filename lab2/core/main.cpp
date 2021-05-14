@@ -1,9 +1,9 @@
 #include <iostream>
-#include "../lab1/core/methods/Dichotomy.h"
-#include "../lab1/core/methods/Fibonacci.h"
-#include "../lab1/core/methods/GoldenRatio.h"
-#include "../lab1/core/methods/Parabola.h"
-#include "../lab1/core/methods/Brent.h"
+#include "lab1/core/methods/Dichotomy.h"
+#include "lab1/core/methods/Fibonacci.h"
+#include "lab1/core/methods/GoldenRatio.h"
+#include "lab1/core/methods/Parabola.h"
+#include "lab1/core/methods/Brent.h"
 #include "methods/ConjugateGradientMethod.h"
 #include "methods/GradientDescent.h"
 #include "methods/GradientSteepestDescent.h"
@@ -44,7 +44,7 @@ void print_diagonal(GradientMethod &method) {
     std::vector<size_t> condition = {2, 5, 10, 25, 50, 100, 200, 300};
     for (size_t sz = 10; sz <= 10000; sz *= 10) {
         for (size_t cond : condition) {
-            printf("%s %lu %s %lu\n", "n =", sz, "k =", cond);
+            printf("%s %zu %s %zu\n", "n =", sz, "k =", cond);
             double res = 0;
             for (size_t i = 0; i < 10; ++i) {
                 a = DiagonalMatrix(sz, cond);
@@ -56,7 +56,7 @@ void print_diagonal(GradientMethod &method) {
                                                                                        epsilon,
                                                                                        start_point, start_alpha);
                 res += result.iterations.size();
-                printf("%lu \n", result.iterations.size());
+                printf("%u \n", result.iterations.size());
             }
             printf("%f\n", res / 10);
         }

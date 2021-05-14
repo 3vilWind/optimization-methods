@@ -12,20 +12,19 @@
 #include "Matrix.h"
 
 
-DiagonalMatrix a = DiagonalMatrix(
-        Vector(std::vector<double>({48, 126})));
-SquareMatrix &A = a;
-Vector b = Vector(std::vector<double>({56, -122}));
-double c = 2;
-Vector start_point = Vector(std::vector<double>({15, 15}));
-double epsilon = 1e-4;
-double start_alpha = 100;
+DiagonalMatrix A(Vector(std::vector<double>({48, 126})));
+Vector b(std::vector<double>({56, -122}));
+Vector start_point(std::vector<double>({15, 15}));
 
-double function(Vector x) {
+const double c = 2;
+const double epsilon = 1e-4;
+const double start_alpha = 100;
+
+double function(const Vector &x) {
     return 0.5 * A.vector_multiplication(x).scalar_multiplication(x) + b.scalar_multiplication(x) + c;
 }
 
-Vector gradient(Vector x) {
+Vector gradient(const Vector &x) {
     return A.vector_multiplication(x).add(b);
 }
 
@@ -47,8 +46,7 @@ void print_diagonal(GradientMethod &method) {
             printf("%s %zu %s %zu\n", "n =", sz, "k =", cond);
             double res = 0;
             for (size_t i = 0; i < 10; ++i) {
-                a = DiagonalMatrix(sz, cond);
-                A = a;
+                A = DiagonalMatrix(sz, cond);
                 b = Vector::random_vector(sz, 10);
                 std::vector<double> start(sz, 15);
                 start_point = Vector(start);

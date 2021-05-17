@@ -80,4 +80,8 @@ Vector Vector::random_vector(size_t size, double k) {
     return Vector(ans);
 }
 
+std::vector<double> Vector::getPlainVector() const {
+    return std::vector<double>(vector);
+}
+
 

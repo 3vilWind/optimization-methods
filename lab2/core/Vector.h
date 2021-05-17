@@ -37,4 +37,6 @@ public:
     std::string to_string() const;
 
     static Vector random_vector(size_t size, double k);
+
+    std::vector<double> getPlainVector() const;
 };

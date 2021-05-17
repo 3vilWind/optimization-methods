@@ -1,19 +1,17 @@
 #include "ConjugateGradientMethod.h"
 
 GradientMethodDetailedResult
-ConjugateGradientMethod::minimize(std::function<double(Vector)> function,
-                                  std::function<Vector(Vector)> gradient, SquareMatrix &A, double epsilon,
-                                  Vector start_point, double alpha) {
+ConjugateGradientMethod::minimize(const QuadraticFunction &f, const Vector &start_point, double epsilon) const {
     GradientMethodDetailedResult result;
     result.iterations.push_back(start_point);
     const size_t max_operations = 10000;
     size_t count_operations = 0;
     Vector point = start_point;
-    Vector prev_grad = gradient(point);
+    Vector prev_grad = f.gradient(point);
     Vector p = prev_grad.opposite();
     while (prev_grad.norm() > epsilon && count_operations < max_operations) {
-        Vector ap = A.vector_multiplication(p);
-        alpha = prev_grad.scalar_multiplication(prev_grad) / ap.scalar_multiplication(p);
+        Vector ap = f.a->vector_multiplication(p);
+        double alpha = prev_grad.scalar_multiplication(prev_grad) / ap.scalar_multiplication(p);
         point = point.add(p.number_multiplication(alpha));
         Vector grad = prev_grad.add(ap.number_multiplication(alpha));
         double beta = 0;

@@ -7,13 +7,13 @@
 #include "SquareMatrix.h"
 #include "Vector.h"
 #include "GradientMethodDetailedResult.h"
+#include "QuadraticFunction.h"
+
 
 class GradientMethod {
 public:
     virtual GradientMethodDetailedResult
-    minimize(std::function<double(Vector)>,
-             std::function<Vector(Vector)>,
-             SquareMatrix &A, double epsilon, Vector start_point, double alpha) = 0;
+    minimize(const QuadraticFunction &f, const Vector &start_point, double epsilon) const = 0;
 
     virtual ~GradientMethod() = default;
 };

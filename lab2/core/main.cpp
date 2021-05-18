@@ -60,8 +60,8 @@ int main() {
     ConjugateGradientMethod conjugateGradientMethod;
     printf("%s\n%s\n", "Двумерная функция", "Метод градиентного спуска");
     print_two_dimentional(gradientDescent, f, start_point, epsilon);
-//    printf("%s\n", "Метод наискорейшего спуска");
-//    print_two_dimentional(gradientSteepestDescent, f, start_point, epsilon);
+    printf("%s\n", "Метод наискорейшего спуска");
+    print_two_dimentional(gradientSteepestDescent, f, start_point, epsilon);
     printf("%s\n", "Метод сопряженных градиентов");
     print_two_dimentional(conjugateGradientMethod, f, start_point, epsilon);
     printf("%s\n%s\n", "Диагональная матрица", "Метод градиентного спуска");

@@ -16,11 +16,11 @@ public:
     }
 
     double evaluate(const Vector &x) const {
-        return 0.5 * a->vector_multiplication(x).scalar_multiplication(x) - b->scalar_multiplication(x) + c;
+        return 0.5 * a->vector_multiplication(x).scalar_multiplication(x) + b->scalar_multiplication(x) + c;
     }
 
     Vector gradient(const Vector &x) const {
-        return a->vector_multiplication(x).add(b->opposite());
+        return a->vector_multiplication(x).add(*b);
     }
 
 private:

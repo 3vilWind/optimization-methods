@@ -1,0 +1,1 @@
+#include "InverseSignGenerator.h"

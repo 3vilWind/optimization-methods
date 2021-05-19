@@ -1,9 +1,5 @@
 #include <iostream>
-#include "lab1/core/methods/Dichotomy.h"
-#include "lab1/core/methods/Fibonacci.h"
-#include "lab1/core/methods/GoldenRatio.h"
-#include "lab1/core/methods/Parabola.h"
-#include "lab1/core/methods/Brent.h"
+
 #include "methods/ConjugateGradientMethod.h"
 #include "methods/GradientDescent.h"
 #include "methods/GradientSteepestDescent.h"
@@ -13,10 +9,11 @@
 #include "QuadraticFunction.h"
 
 
-void print_two_dimentional(GradientMethod &method, QuadraticFunction &f, Vector &start_point, double epsilon) {
+void print_two_dimensional(GradientMethod &method, QuadraticFunction &f, Vector &start_point, double epsilon) {
     GradientMethodDetailedResult result = method.minimize(f, start_point, epsilon);
+    printf("iteration\tresult\n");
     for (int i = 0; i < result.iterations.size(); ++i) {
-        printf("%d %s\n", i, result.iterations[i].to_string().c_str());
+        printf("%d\t%s\n", i, result.iterations[i].to_string().c_str());
     }
 }
 
@@ -26,25 +23,27 @@ void print_diagonal(GradientMethod &method, double epsilon) {
     GradientDescent gradientDescent;
     GradientSteepestDescent gradientSteepestDescent;
     std::vector<size_t> condition = {2, 5, 10, 25, 50, 100, 200, 300};
+
+    printf("n\tk\titerations\n");
     for (size_t sz = 10; sz <= 10000; sz *= 10) {
         for (size_t cond : condition) {
-            printf("%s %zu %s %zu\n", "n =", sz, "k =", cond);
+            printf("%zu\t%zu\t", sz, cond);
             double res = 0;
             for (size_t i = 0; i < 10; ++i) {
-                DiagonalMatrix a(sz, cond);
-                Vector b = Vector::random_vector(sz, 10);
+                DiagonalMatrix a = DiagonalMatrix::getRandomMatrix(sz, cond);
+                Vector b = Vector::getRandomVector(sz, 10);
                 Vector start_point = Vector(std::vector<double>(sz, 15));
                 QuadraticFunction f(&a, &b, 2);
                 GradientMethodDetailedResult result = gradientSteepestDescent.minimize(f,
                                                                                        start_point,
                                                                                        epsilon);
                 res += result.iterations.size();
-                printf("%u \n", result.iterations.size());
             }
             printf("%f\n", res / 10);
         }
     }
 }
+
 
 int main() {
     DiagonalMatrix a(Vector(std::vector<double>({2, 8})));
@@ -58,17 +57,22 @@ int main() {
     GradientDescent gradientDescent;
     GradientSteepestDescent gradientSteepestDescent;
     ConjugateGradientMethod conjugateGradientMethod;
-    printf("%s\n%s\n", "Двумерная функция", "Метод градиентного спуска");
-    print_two_dimentional(gradientDescent, f, start_point, epsilon);
-    printf("%s\n", "Метод наискорейшего спуска");
-    print_two_dimentional(gradientSteepestDescent, f, start_point, epsilon);
-    printf("%s\n", "Метод сопряженных градиентов");
-    print_two_dimentional(conjugateGradientMethod, f, start_point, epsilon);
-    printf("%s\n%s\n", "Диагональная матрица", "Метод градиентного спуска");
+
+    printf("Two dimensional function\n");
+    printf("%s\n", "Gradient descent method");
+    print_two_dimensional(gradientDescent, f, start_point, epsilon);
+    printf("%s\n", "Gradient steepest method");
+    print_two_dimensional(gradientSteepestDescent, f, start_point, epsilon);
+    printf("%s\n", "Conjugate gradient method");
+    print_two_dimensional(conjugateGradientMethod, f, start_point, epsilon);
+    printf("\n");
+
+    printf("Diagonal matrix function\n");
+    printf("%s\n", "Gradient descent method");
     print_diagonal(gradientDescent, epsilon);
-    printf("%s\n", "Метод наискорейшего спуска");
+    printf("%s\n", "Gradient steepest method");
     print_diagonal(gradientSteepestDescent, epsilon);
-    printf("%s\n", "Метод сопряженных градиентов");
+    printf("%s\n", "Conjugate gradient method");
     print_diagonal(conjugateGradientMethod, epsilon);
     return 0;
 }

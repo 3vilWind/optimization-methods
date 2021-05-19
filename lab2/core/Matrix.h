@@ -9,12 +9,12 @@ private:
 public:
     explicit Matrix(std::vector<Vector>);
 
-    size_t number_of_rows() const override;
-
-    size_t number_of_columns() const override;
+    size_t size() const override;
 
     Vector row(size_t index) const override;
 
-    Vector vector_multiplication(const Vector& v) const override;
+    Vector mulByVector(const Vector& v) const override;
+
+    double getMaxEigenValue() const override;
 };
 

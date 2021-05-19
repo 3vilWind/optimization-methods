@@ -4,13 +4,13 @@
 
 class SquareMatrix {
 public:
-    virtual size_t number_of_rows() const = 0;
-
-    virtual size_t number_of_columns() const = 0;
+    virtual size_t size() const = 0;
 
     virtual Vector row(size_t index) const = 0;
 
-    virtual Vector vector_multiplication(const Vector& v) const = 0;
+    virtual Vector mulByVector(const Vector& v) const = 0;
 
     virtual ~SquareMatrix() = default;
+
+    virtual double getMaxEigenValue() const = 0;
 };

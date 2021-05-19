@@ -18,25 +18,22 @@ public:
 
     double get(size_t index) const;
 
-    static Vector add(const Vector &v1, const Vector &v2);
-
-    Vector add(const Vector &v) const;
-
-    static double scalar_multiplication(const Vector &v1, const Vector &v2);
-
-    double scalar_multiplication(const Vector &v) const;
-
     double norm() const;
-
-    static Vector number_multiplication(const Vector &v, double x);
-
-    Vector number_multiplication(double x) const;
 
     Vector opposite() const;
 
     std::string to_string() const;
 
-    static Vector random_vector(size_t size, double k);
+    static Vector getRandomVector(size_t size, double k);
 
     std::vector<double> getPlainVector() const;
+
+    friend Vector operator+(Vector lhs, const Vector& rhs);
+    friend Vector operator-(Vector lhs, const Vector& rhs);
+    friend Vector operator*(Vector lhs, double rhs);
+    friend double operator*(const Vector & lhs, const Vector &rhs);
+
+    Vector& operator+=(const Vector& rhs);
+
+    friend Vector operator*(double lhs, Vector rhs);
 };

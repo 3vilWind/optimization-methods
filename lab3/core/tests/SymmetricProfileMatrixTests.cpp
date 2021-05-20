@@ -43,10 +43,11 @@ TEST(SymmetricProfileMatrixTests, create_from_dense_02) {
 
 
 TEST(SymmetricProfileMatrixTests, create_from_dense_03) {
+    //теперь симметричная
     DenseMatrix denseMatrix({
                                     {1, 0, 1},
                                     {0, 5, 0},
-                                    {0, 0, 9}
+                                    {11, 0, 9}
                             });
     std::vector<double> diagonal({1, 5, 9});
     std::vector<size_t> index({0, 0, 0, 0});

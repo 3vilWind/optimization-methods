@@ -4,7 +4,6 @@
 
 
 SymmetricProfileMatrix::SymmetricProfileMatrix(const Matrix &matrix) {
-    // doesn't work
     index.push_back(0);
     for (size_t i = 0; i < matrix.size(); ++i) {
         diagonal.push_back(matrix.get(i, i));
@@ -15,7 +14,7 @@ SymmetricProfileMatrix::SymmetricProfileMatrix(const Matrix &matrix) {
         index.push_back(i - j + index[i]);
         for (; j < i; ++j) {
             rowLowerProfile.push_back(matrix.get(i, j));
-            columnUpperProfile.push_back(matrix.get(i, j));
+            columnUpperProfile.push_back(matrix.get(j, i));
         }
     }
 }

@@ -1,8 +1,10 @@
 #include "SymmetricProfileMatrix.h"
 #include <stdexcept>
+#include <algorithm>
 
 
-SymmetricProfileMatrix::SymmetricProfileMatrix(const Matrix& matrix) {
+SymmetricProfileMatrix::SymmetricProfileMatrix(const Matrix &matrix) {
+    // doesn't work
     index.push_back(0);
     for (size_t i = 0; i < matrix.size(); ++i) {
         diagonal.push_back(matrix.get(i, i));

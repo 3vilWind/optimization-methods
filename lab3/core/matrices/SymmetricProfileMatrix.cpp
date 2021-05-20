@@ -1,6 +1,6 @@
 #include "SymmetricProfileMatrix.h"
 
-SymmetricProfileMatrix::SymmetricProfileMatrix(DenseMatrix matrix) {
+SymmetricProfileMatrix::SymmetricProfileMatrix(const Matrix& matrix) {
     index.push_back(0);
     for (size_t i = 0; i < matrix.size(); ++i) {
         diagonal.push_back(matrix.get(i, i));
@@ -40,4 +40,8 @@ void SymmetricProfileMatrix::set(size_t x, size_t y, double value) {
         size_t profile = index[y + 1] - index[y];
         columnUpperProfile[index[y] + x - (y - profile) - 1] = value;
     }
+}
+
+size_t SymmetricProfileMatrix::size() const {
+    return diagonal.size();
 }

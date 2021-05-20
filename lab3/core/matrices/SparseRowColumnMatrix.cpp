@@ -1,6 +1,6 @@
 #include "SparseRowColumnMatrix.h"
 
-SparseRowColumnMatrix::SparseRowColumnMatrix(DenseMatrix matrix) {
+SparseRowColumnMatrix::SparseRowColumnMatrix(const Matrix& matrix) {
     indexFirst.push_back(0);
     for (size_t i = 0; i < matrix.size(); ++i) {
         size_t cnt = 0;
@@ -56,4 +56,8 @@ void SparseRowColumnMatrix::set(size_t x, size_t y, double value) {
             }
         }
     }
+}
+
+size_t SparseRowColumnMatrix::size() const {
+    return diagonal.size();
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stddef.h>
-
 
 class Matrix {
 public:
@@ -9,4 +7,5 @@ public:
 
     virtual void set(size_t x, size_t y, double value) = 0;
 
+    virtual size_t size() const = 0;
 };

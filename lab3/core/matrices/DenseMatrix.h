@@ -13,5 +13,5 @@ public:
 
     void set(size_t x, size_t y, double value) override;
 
-    size_t size();
+    size_t size() const override;
 };

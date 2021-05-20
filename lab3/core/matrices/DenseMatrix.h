@@ -9,9 +9,9 @@ class DenseMatrix : public Matrix {
 public:
     explicit DenseMatrix(std::vector<std::vector<double>> matrix);
 
-    double get(size_t x, size_t y) const override;
+    double get(size_t y, size_t x) const override;
 
-    void set(size_t x, size_t y, double value) override;
+    void set(size_t y, size_t x, double value) override;
 
     size_t size() const override;
 };

@@ -17,7 +17,7 @@ SparseRowColumnMatrix::SparseRowColumnMatrix(const Matrix& matrix) {
     }
 }
 
-double SparseRowColumnMatrix::get(size_t x, size_t y) const {
+double SparseRowColumnMatrix::get(size_t y, size_t x) const {
     if (x == y) {
         return diagonal[x];
     }
@@ -37,7 +37,7 @@ double SparseRowColumnMatrix::get(size_t x, size_t y) const {
     return 0;
 }
 
-void SparseRowColumnMatrix::set(size_t x, size_t y, double value) {
+void SparseRowColumnMatrix::set(size_t y, size_t x, double value) {
     if (x == y) {
         diagonal[x] = value;
     }

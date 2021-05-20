@@ -4,12 +4,12 @@
 
 DenseMatrix::DenseMatrix(std::vector<std::vector<double>> matrix) : matrix(std::move(matrix)) {}
 
-double DenseMatrix::get(size_t x, size_t y) const {
-    return matrix[x][y];
+double DenseMatrix::get(size_t y, size_t x) const {
+    return matrix[y][x];
 }
 
-void DenseMatrix::set(size_t x, size_t y, double value) {
-    matrix[x][y] = value;
+void DenseMatrix::set(size_t y, size_t x, double value) {
+    matrix[y][x] = value;
 }
 
 size_t DenseMatrix::size() const {

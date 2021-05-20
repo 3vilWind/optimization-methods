@@ -1,4 +1,6 @@
 #include "SymmetricProfileMatrix.h"
+#include <stdexcept>
+
 
 SymmetricProfileMatrix::SymmetricProfileMatrix(const Matrix& matrix) {
     index.push_back(0);
@@ -16,32 +18,44 @@ SymmetricProfileMatrix::SymmetricProfileMatrix(const Matrix& matrix) {
     }
 }
 
-double SymmetricProfileMatrix::get(size_t x, size_t y) const {
+double SymmetricProfileMatrix::get(size_t y, size_t x) const {
     if (x == y) {
         return diagonal[x];
     }
-    if (x > y) {
-        size_t profile = index[x + 1] - index[x];
-        return (y < x - profile ? 0 : rowLowerProfile[index[x] + y - (x - profile) - 1]);
+    if (x < y) {
+        size_t shift = getShift(y);
+        return (x < shift ? 0 : rowLowerProfile[getProfileIndex(shift, y, x)]);
     } else {
-        size_t profile = index[y + 1] - index[y];
-        return (x < y - profile ? 0 : columnUpperProfile[index[y] + x - (y - profile) - 1]);
+        size_t shift = getShift(x);
+        return (y < shift ? 0 : columnUpperProfile[getProfileIndex(shift, x, y)]);
     }
 }
 
-void SymmetricProfileMatrix::set(size_t x, size_t y, double value) {
+void SymmetricProfileMatrix::set(size_t y, size_t x, double value) {
     if (x == y) {
         diagonal[x] = value;
     }
-    if (x > y) {
-        size_t profile = index[x + 1] - index[x];
-        rowLowerProfile[index[x] + y - (x - profile) - 1] = value;
+    if (x < y) {
+        size_t shift = getShift(y);
+        if (x < shift && value != 0.0)
+            throw std::range_error("write outside profile");
+        rowLowerProfile[getProfileIndex(shift, y, x)] = value;
     } else {
-        size_t profile = index[y + 1] - index[y];
-        columnUpperProfile[index[y] + x - (y - profile) - 1] = value;
+        size_t shift = getShift(x);
+        if (y < shift && value != 0.0)
+            throw std::range_error("write outside profile");
+        columnUpperProfile[getProfileIndex(shift, x, y)] = value;
     }
 }
 
 size_t SymmetricProfileMatrix::size() const {
     return diagonal.size();
+}
+
+size_t SymmetricProfileMatrix::getShift(size_t a) const {
+    return a - (index[a + 1] - index[a]);
+}
+
+size_t SymmetricProfileMatrix::getProfileIndex(size_t shift, size_t a, size_t b) const {
+    return index[a] + b - shift;
 }

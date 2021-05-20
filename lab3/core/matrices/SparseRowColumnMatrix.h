@@ -2,6 +2,7 @@
 
 #include "Matrix.h"
 #include <vector>
+#include "DenseMatrix.h"
 
 class SparseRowColumnMatrix : public Matrix {
 private:
@@ -11,7 +12,7 @@ private:
     std::vector<size_t> indexFirst;
     std::vector<size_t> indexNonZero;
 public:
-    explicit SparseRowColumnMatrix(std::vector<std::vector<double>> matrix);
+    explicit SparseRowColumnMatrix(DenseMatrix matrix);
 
     double get(size_t x, size_t y) const override;
 

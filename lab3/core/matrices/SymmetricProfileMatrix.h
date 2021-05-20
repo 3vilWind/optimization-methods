@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Matrix.h"
+#include "DenseMatrix.h"
 
 
 class SymmetricProfileMatrix : public Matrix {
@@ -11,7 +12,7 @@ class SymmetricProfileMatrix : public Matrix {
     std::vector<size_t> index;
 
 public:
-    explicit SymmetricProfileMatrix(std::vector<std::vector<double>> matrix);
+    explicit SymmetricProfileMatrix(DenseMatrix matrix);
 
     double get(size_t x, size_t y) const override;
 

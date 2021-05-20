@@ -1,17 +1,17 @@
 #include "SymmetricProfileMatrix.h"
 
-SymmetricProfileMatrix::SymmetricProfileMatrix(std::vector<std::vector<double>> matrix) {
+SymmetricProfileMatrix::SymmetricProfileMatrix(DenseMatrix matrix) {
     index.push_back(0);
     for (size_t i = 0; i < matrix.size(); ++i) {
-        diagonal.push_back(matrix[i][i]);
+        diagonal.push_back(matrix.get(i, i));
         size_t j = 0;
-        while (matrix[i][j] == 0) {
+        while (matrix.get(i, j) == 0) {
             ++j;
         }
         index.push_back(i - j + index[i]);
         for (; j < i; ++j) {
-            rowLowerProfile.push_back(matrix[i][j]);
-            columnUpperProfile.push_back(matrix[j][i]);
+            rowLowerProfile.push_back(matrix.get(i, j));
+            columnUpperProfile.push_back(matrix.get(i, j));
         }
     }
 }

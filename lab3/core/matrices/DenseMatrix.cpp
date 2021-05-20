@@ -10,3 +10,6 @@ void DenseMatrix::set(size_t x, size_t y, double value) {
     matrix[x][y] = value;
 }
 
+size_t DenseMatrix::size() {
+    return matrix.size();
+}

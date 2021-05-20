@@ -1,8 +1,9 @@
 #pragma once
 #include "../matrices/Matrix.h"
+#include "LinearSystem.h"
 #include <vector>
 
 class Solver {
 public:
-    virtual std::vector<double> solve(Matrix& matrix, std::vector<double> b) = 0;
+    virtual std::vector<double> solve(LinearSystem system) = 0;
 };

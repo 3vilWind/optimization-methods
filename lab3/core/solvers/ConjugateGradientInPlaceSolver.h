@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Solver.h"
+#include "LinearSystem.h"
 
 class ConjugateGradientInPlaceSolver : public Solver {
-    std::vector<double> solve(Matrix &matrix, std::vector<double> b);
+    std::vector<double> solve(LinearSystem system);
 };

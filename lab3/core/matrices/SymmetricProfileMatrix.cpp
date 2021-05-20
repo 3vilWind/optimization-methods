@@ -35,6 +35,7 @@ double SymmetricProfileMatrix::get(size_t y, size_t x) const {
 void SymmetricProfileMatrix::set(size_t y, size_t x, double value) {
     if (x == y) {
         diagonal[x] = value;
+        return;
     }
     if (x < y) {
         size_t shift = getShift(y);

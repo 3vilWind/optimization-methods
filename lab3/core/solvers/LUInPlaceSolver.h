@@ -1,22 +1,14 @@
 #pragma once
 
+#include "../matrices/LUWrapperMatrix.h"
 #include "Solver.h"
+#include "tuple"
 
 class LUInPlaceSolver : public Solver {
 public:
-    std::vector<double> solve(Matrix &matrix, std::vector<double> b) override;
+    std::vector<double> solve(LinearSystem system) override;
 
-private:
-    void LUDecompose(Matrix &matrix);
-
-    class LUWrapperMatrix {
-        Matrix &matrix;
-    public:
-        explicit LUWrapperMatrix(Matrix &matrix) : matrix(matrix) {}
-
-        double getL(size_t x, size_t y);
-
-        double getU(size_t x, size_t y);
-    };
+protected:
+    std::tuple<LWrapperMatrix, UWrapperMatrix> LUDecompose(Matrix &matrix);
 };
 

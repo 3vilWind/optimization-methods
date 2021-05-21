@@ -14,7 +14,7 @@ std::tuple<LWrapperMatrix, UWrapperMatrix> LUInPlaceSolver::LUDecompose(Matrix &
         }
 
         if (matrix.get(y, x) == 0.0) {
-            throw std::exception("error");
+            throw std::runtime_error("error");
         }
 
         for (int i = x + 1, p_row = y + 1; i < matrix.size(); p_row++, i++) {

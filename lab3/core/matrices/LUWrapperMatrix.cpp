@@ -1,5 +1,6 @@
 #include "LUWrapperMatrix.h"
 #include <exception>
+#include <stdexcept>
 
 
 double LWrapperMatrix::get(size_t y, size_t x) const {
@@ -11,7 +12,7 @@ double LWrapperMatrix::get(size_t y, size_t x) const {
 }
 
 void LWrapperMatrix::set(size_t y, size_t x, double value) {
-    throw std::exception("set is not supported!");
+    throw std::runtime_error("set is not supported!");
 }
 
 size_t LWrapperMatrix::size() const {
@@ -25,7 +26,7 @@ double UWrapperMatrix::get(size_t y, size_t x) const {
 }
 
 void UWrapperMatrix::set(size_t y, size_t x, double value) {
-    throw std::exception("set is not supported!");
+    throw std::runtime_error("set is not supported!");
 }
 
 size_t UWrapperMatrix::size() const {

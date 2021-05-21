@@ -20,7 +20,7 @@ ConjugateGradientMethod::minimize(const QuadraticFunction &f, const Vector &star
         if (count_operations % point.size() != 0) {
             beta = (grad * grad) / (prev_grad * prev_grad);
         }
-        p = grad - (p * beta);
+        p = (p * beta) - grad;
         prev_grad = grad;
         ++count_operations;
         result.iterations.push_back(point);

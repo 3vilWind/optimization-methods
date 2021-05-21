@@ -6,7 +6,7 @@
 
 class LUInPlaceSolver : public Solver {
 public:
-    std::vector<double> solve(LinearSystem system) override;
+    std::vector<double> solve(Matrix &a, std::vector<double> b) override;
 
 protected:
     std::tuple<LWrapperMatrix, UWrapperMatrix> LUDecompose(Matrix &matrix);

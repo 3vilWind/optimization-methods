@@ -35,24 +35,23 @@ std::tuple<LWrapperMatrix, UWrapperMatrix> LUInPlaceSolver::LUDecompose(Matrix &
     return std::make_tuple(LWrapperMatrix(matrix), UWrapperMatrix(matrix));
 }
 
-std::vector<double> LUInPlaceSolver::solve(LinearSystem system) {
-    auto lu = LUDecompose(system.a);
-    std::vector<double> result(system.b);
+std::vector<double> LUInPlaceSolver::solve(Matrix &a, std::vector<double> b) {
+    auto lu = LUDecompose(a);
     LWrapperMatrix l = std::get<0>(lu);
     UWrapperMatrix u = std::get<1>(lu);
 
-    for (int i = 0; i < system.a.size(); i++) {
+    for (int i = 0; i < a.size(); i++) {
         for (int j = 0; j < i; j++) {
-            result[i] -= result[j] * l.get(i, j);
+            b[i] -= b[j] * l.get(i, j);
         }
     }
 
-    for (int i = system.a.size() - 1; i >= 0; i--) {
-        for (int j = i + 1; j < system.a.size(); j++) {
-            result[i] -= result[j] * u.get(i, j);
+    for (int i = a.size() - 1; i >= 0; i--) {
+        for (int j = i + 1; j < a.size(); j++) {
+            b[i] -= b[j] * u.get(i, j);
         }
-        result[i] /= u.get(i, i);
+        b[i] /= u.get(i, i);
     }
 
-    return result;
+    return b;
 }

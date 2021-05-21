@@ -5,5 +5,5 @@
 
 class GaussPivotingInPlaceSolver : public Solver {
 public:
-    std::vector<double> solve(LinearSystem system) override;
+    std::vector<double> solve(Matrix &a, std::vector<double> b) override;
 };

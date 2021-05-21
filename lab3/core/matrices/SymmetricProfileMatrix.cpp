@@ -61,3 +61,45 @@ size_t SymmetricProfileMatrix::getShift(size_t a) const {
 size_t SymmetricProfileMatrix::getProfileIndex(size_t shift, size_t a, size_t b) const {
     return index[a] + b - shift;
 }
+
+void SymmetricProfileMatrix::serialize(const std::string &path) const {
+    FILE *f = fopen(path.c_str(), "w");
+    size_t n = size();
+    fprintf(f, "%u %u %u\n", n, rowLowerProfile.size(), columnUpperProfile.size());
+    for (double i : diagonal)
+        fprintf(f, "%le ", i);
+    fprintf(f, "\n");
+
+    for (double i : rowLowerProfile)
+        fprintf(f, "%le ", i);
+    fprintf(f, "\n");
+
+    for (double i : columnUpperProfile)
+        fprintf(f, "%le ", i);
+    fprintf(f, "\n");
+
+    for (size_t i : index)
+        fprintf(f, "%u ", i);
+    fprintf(f, "\n");
+}
+
+SymmetricProfileMatrix SymmetricProfileMatrix::deserialize(const std::string &path) {
+    FILE *f = fopen(path.c_str(), "r");
+    size_t n, rowLowerProfileSize, columnUpperProfileSize;
+    fscanf(f, "%u %u %u", &n, &rowLowerProfileSize, &columnUpperProfileSize);
+
+    SymmetricProfileMatrix m(n, rowLowerProfileSize, columnUpperProfileSize);
+    for (size_t i = 0; i < n; ++i)
+        fscanf(f, "%le", &m.diagonal[i]);
+
+    for (size_t i = 0; i < rowLowerProfileSize; ++i)
+        fscanf(f, "%le", &m.rowLowerProfile[i]);
+
+    for (size_t i = 0; i < columnUpperProfileSize; ++i)
+        fscanf(f, "%le", &m.columnUpperProfile[i]);
+
+    for (size_t i = 0; i < n + 1; ++i)
+        fscanf(f, "%u", &m.index[i]);
+
+    return m;
+}

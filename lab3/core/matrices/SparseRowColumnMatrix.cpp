@@ -13,23 +13,23 @@ SparseRowColumnMatrix::SparseRowColumnMatrix(const Matrix& matrix) {
                 indexNonZero.push_back(j);
             }
         }
-        indexFirst.push_back(cnt);
+        indexFirst.push_back(cnt + indexFirst[i]);
     }
 }
 
-double SparseRowColumnMatrix::get(size_t y, size_t x) const {
+double SparseRowColumnMatrix::get(size_t x, size_t y) const {
     if (x == y) {
         return diagonal[x];
     }
     if (x > y) {
         for (size_t i = indexFirst[x]; i < indexFirst[x + 1]; ++i) {
-            if (i == y) {
+            if (indexNonZero[i] == y) {
                 return rowLowerProfile[i];
             }
         }
     } else {
         for (size_t i = indexFirst[y]; i < indexFirst[y + 1]; ++i) {
-            if (i == x) {
+            if (indexNonZero[i] == x) {
                 return columnUpperProfile[i];
             }
         }
@@ -37,20 +37,20 @@ double SparseRowColumnMatrix::get(size_t y, size_t x) const {
     return 0;
 }
 
-void SparseRowColumnMatrix::set(size_t y, size_t x, double value) {
+void SparseRowColumnMatrix::set(size_t x, size_t y, double value) {
     if (x == y) {
         diagonal[x] = value;
     }
     if (x > y) {
         for (size_t i = indexFirst[x]; i < indexFirst[x + 1]; ++i) {
-            if (i == y) {
+            if (indexNonZero[i] == y) {
                 rowLowerProfile[i] = value;
                 return;
             }
         }
     } else {
         for (size_t i = indexFirst[y]; i < indexFirst[y + 1]; ++i) {
-            if (i == x) {
+            if (indexNonZero[i] == x) {
                 columnUpperProfile[i] = value;
                 return;
             }

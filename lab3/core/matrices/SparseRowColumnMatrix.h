@@ -5,7 +5,7 @@
 #include "DenseMatrix.h"
 
 class SparseRowColumnMatrix : public Matrix {
-private:
+protected:
     std::vector<double> diagonal;
     std::vector<double> rowLowerProfile;
     std::vector<double> columnUpperProfile;

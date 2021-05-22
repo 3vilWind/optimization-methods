@@ -15,3 +15,7 @@ void DenseMatrix::set(size_t y, size_t x, double value) {
 size_t DenseMatrix::size() const {
     return matrix.size();
 }
+
+void DenseMatrix::swap_rows(size_t row1, size_t row2) {
+    std::swap(matrix[row1], matrix[row2]);
+}

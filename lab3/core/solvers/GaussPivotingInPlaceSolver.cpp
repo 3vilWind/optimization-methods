@@ -1,44 +1,39 @@
 #include "GaussPivotingInPlaceSolver.h"
 #include <cfloat>
 #include <algorithm>
-#include <iostream>
+#include <typeinfo>
+#include "../matrices/DenseMatrix.h"
+#include <stdexcept>
 
 
 std::vector<double> GaussPivotingInPlaceSolver::solve(Matrix &a, std::vector<double> b) {
-    for (size_t k = 0; k < a.size() - 1; ++k) {
-        std::cout << "\n";
+    if (typeid(a) != typeid(DenseMatrix)) {
+        throw std::runtime_error("Only Dense Matrices are supported!");
+    }
+    auto &matrix = dynamic_cast<DenseMatrix &>(a);
+
+    for (size_t k = 0; k < matrix.size() - 1; ++k) {
         double max = 0;
         size_t row_index = k;
-        for (size_t i = k; i < a.size(); ++i) {
-            if (std::abs(max) < std::abs(a.get(i, k))) {
-                max = a.get(i, k);
+        for (size_t i = k; i < matrix.size(); ++i) {
+            if (std::abs(max) < std::abs(matrix.get(i, k))) {
+                max = matrix.get(i, k);
                 row_index = i;
             }
         }
         /*if (max < eps) {
             // нет решения
         }*/
-        swap_rows(a, k, row_index);
+        matrix.swap_rows(k, row_index);
         std::swap(b[k], b[row_index]);
 
-        for (size_t i = k + 1; i < a.size(); ++i) {
-            double m = a.get(i, k) / max;
-            subtract_rows(a, i, k, k, a.size(), m);
+        for (size_t i = k + 1; i < matrix.size(); ++i) {
+            double m = matrix.get(i, k) / max;
+            subtract_rows(matrix, i, k, k, matrix.size(), m);
             b[i] -= b[k] * m;
         }
     }
-    return reverse_gauss(a, b);
-}
-
-void GaussPivotingInPlaceSolver::swap_rows(Matrix &a, size_t row1, size_t row2) {
-    if (row1 == row2) {
-        return;
-    }
-    for (size_t col = 0; col < a.size(); ++col) {
-        double c = a.get(row1, col), d = a.get(row2, col);
-        a.set(row1, col, d);
-        a.set(row2, col, c);
-    }
+    return reverse_gauss(matrix, b);
 }
 
 void

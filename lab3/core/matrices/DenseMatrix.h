@@ -14,4 +14,6 @@ public:
     void set(size_t y, size_t x, double value) override;
 
     size_t size() const override;
+
+    void swap_rows(size_t row1, size_t row2);
 };

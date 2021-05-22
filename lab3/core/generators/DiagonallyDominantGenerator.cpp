@@ -1,6 +1,7 @@
 #include "DiagonallyDominantGenerator.h"
 #include <random>
 #include <vector>
+#include <tuple>
 
 std::tuple<DenseMatrix, std::vector<double>> DiagonallyDominantGenerator::generate(size_t n, size_t k) {
     std::random_device rd;

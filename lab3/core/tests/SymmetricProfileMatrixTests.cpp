@@ -9,6 +9,8 @@ class SymmetricProfileMatrixTest : public SymmetricProfileMatrix {
     FRIEND_TEST(SymmetricProfileMatrixTests, createFromDense02);
 
     FRIEND_TEST(SymmetricProfileMatrixTests, createFromDense03);
+
+    FRIEND_TEST(SymmetricProfileMatrixTests, createFromDense04);
 };
 
 
@@ -50,6 +52,24 @@ TEST(SymmetricProfileMatrixTests, createFromDense03) {
                                     {11, 0, 9}
                             });
     std::vector<double> diagonal({1, 5, 9});
+    std::vector<size_t> index({0, 0, 0, 2});
+
+    SymmetricProfileMatrixTest a(denseMatrix);
+    expectEqualMatrices(a, denseMatrix);
+
+    expectEqualVectors(a.diagonal, diagonal);
+    expectEqualVectors(a.index, index);
+    EXPECT_EQ(a.rowLowerProfile.size(), 2);
+    EXPECT_EQ(a.columnUpperProfile.size(), 2);
+}
+
+TEST(SymmetricProfileMatrixTests, createFromDense04) {
+    DenseMatrix denseMatrix({
+                                    {1,  0, 1},
+                                    {0,  0, 0},
+                                    {11, 0, 9}
+                            });
+    std::vector<double> diagonal({1, 0, 9});
     std::vector<size_t> index({0, 0, 0, 2});
 
     SymmetricProfileMatrixTest a(denseMatrix);

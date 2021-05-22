@@ -18,7 +18,7 @@ protected:
     size_t getProfileIndex(size_t shift, size_t a, size_t b) const;
 
 
-    SymmetricProfileMatrix(size_t n, size_t rowLowerProfileSize, size_t columnUpperProfileSize) {
+    void resize(size_t n, size_t rowLowerProfileSize, size_t columnUpperProfileSize) {
         diagonal.resize(n, 0);
         rowLowerProfile.resize(rowLowerProfileSize, 0);
         columnUpperProfile.resize(columnUpperProfileSize, 0);
@@ -26,6 +26,8 @@ protected:
     }
 
 public:
+    SymmetricProfileMatrix() = default;
+
     explicit SymmetricProfileMatrix(const Matrix &matrix);
 
     double get(size_t y, size_t x) const override;
@@ -34,7 +36,7 @@ public:
 
     size_t size() const override;
 
-    void serialize(const std::string &path) const;
+    friend void serialize(const SymmetricProfileMatrix &matrix, const std::string &path);
 
-    static SymmetricProfileMatrix deserialize(const std::string &path);
+    friend void deserialize(SymmetricProfileMatrix &matrix, const std::string &path);
 };

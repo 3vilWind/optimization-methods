@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <typeinfo>
 #include "VectorUtils.h"
+int iter = 0;
 
 std::vector<double> ConjugateGradientInPlaceSolver::solve(Matrix &a, std::vector<double> b, double epsilon) {
     if (typeid(a) != typeid(SymmetricSparseRowColumnMatrix)) {
@@ -16,6 +17,7 @@ std::vector<double> ConjugateGradientInPlaceSolver::solve(Matrix &a, std::vector
     Vector mx = matrix.multiply(x_prev);
     Vector r_prev = subtract(b, mx);
     Vector z_prev = r_prev;
+    iter = 0;
     for (size_t i = 1; i < 1e4; ++i) {
         Vector mz = matrix.multiply(z_prev);
         double alpha = scalar_product(r_prev, r_prev) / scalar_product(mz, z_prev);
@@ -30,6 +32,7 @@ std::vector<double> ConjugateGradientInPlaceSolver::solve(Matrix &a, std::vector
         x_prev = x_cur;
         z_prev = z_cur;
         r_prev = r_cur;
+        iter = i;
     }
     return x_prev;
 }

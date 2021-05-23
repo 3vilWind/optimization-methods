@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(linear_systems)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -14,7 +14,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(code_tests solvers/LUInPlaceSolver.cpp solvers/LUInPlaceSolver.h matrices/SymmetricProfileMatrix.cpp matrices/SymmetricProfileMatrix.h matrices/Matrix.cpp matrices/Matrix.h solvers/GaussPivotingInPlaceSolver.cpp solvers/GaussPivotingInPlaceSolver.h solvers/Solver.cpp solvers/Solver.h solvers/ConjugateGradientInPlaceSolver.cpp solvers/ConjugateGradientInPlaceSolver.h matrices/DenseMatrix.cpp matrices/DenseMatrix.h tests/SymmetricProfileMatrixTests.cpp tests/Utils.h matrices/LUWrapperMatrix.cpp matrices/LUWrapperMatrix.h tests/LUInPlaceSolverTests.cpp tests/Utils.cpp tests/SparseRowColumnTest.cpp tests/GaussPivotingInPlaceSolverTests.cpp matrices/SparseRowColumnMatrix.cpp matrices/SparseRowColumnMatrix.h)
+add_executable(code_tests solvers/LUInPlaceSolver.cpp solvers/LUInPlaceSolver.h matrices/SymmetricProfileMatrix.cpp matrices/SymmetricProfileMatrix.h matrices/Matrix.cpp matrices/Matrix.h solvers/GaussPivotingInPlaceSolver.cpp solvers/GaussPivotingInPlaceSolver.h solvers/Solver.cpp solvers/Solver.h solvers/ConjugateGradientInPlaceSolver.cpp solvers/ConjugateGradientInPlaceSolver.h matrices/DenseMatrix.cpp matrices/DenseMatrix.h tests/SymmetricProfileMatrixTests.cpp tests/Utils.h matrices/LUWrapperMatrix.cpp matrices/LUWrapperMatrix.h tests/LUInPlaceSolverTests.cpp tests/Utils.cpp tests/SparseRowColumnTest.cpp tests/GaussPivotingInPlaceSolverTests.cpp matrices/SparseRowColumnMatrix.cpp matrices/SparseRowColumnMatrix.h tests/ConjugateGradientInPlaceSolverTests.cpp)
 
 target_link_libraries(
         code_tests

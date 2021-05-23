@@ -5,8 +5,11 @@
 using Vector =std::vector<double>;//а чтоб и нет
 
 class ConjugateGradientInPlaceSolver : public Solver {
+
+public:
     Vector solve(Matrix &a, Vector b) override;
 
+private:
     Vector static subtract(Vector a, Vector &b);
 
     Vector static sum(Vector a, Vector &b);

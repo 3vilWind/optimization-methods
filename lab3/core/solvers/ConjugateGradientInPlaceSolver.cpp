@@ -1,6 +1,8 @@
 #include "ConjugateGradientInPlaceSolver.h"
 #include "../matrices/SparseRowColumnMatrix.h"
 #include <vector>
+#include <math.h>
+#include <iostream>
 
 Vector ConjugateGradientInPlaceSolver::solve(Matrix &a, Vector b) {
     if (typeid(a) != typeid(SparseRowColumnMatrix)) {
@@ -15,12 +17,12 @@ Vector ConjugateGradientInPlaceSolver::solve(Matrix &a, Vector b) {
     double eps = 1e-7;
     for (size_t i = 1; i < 1e4; ++i) {
         Vector mz = matrix.multiply(z_prev);
-        double alpha_k = scalar_product(r_prev, r_prev) / scalar_product(mz, z_prev);
-        Vector x_cur = sum(multiply(z_prev, -alpha_k), x_prev);
-        Vector mz_alpha = multiply(mz, alpha_k);
+        double alpha = scalar_product(r_prev, r_prev) / scalar_product(mz, z_prev);
+        Vector x_cur = sum(multiply(z_prev, alpha), x_prev);
+        Vector mz_alpha = multiply(mz, alpha);
         Vector r_cur = subtract(r_prev, mz_alpha);
-        double beta_k = scalar_product(r_cur, r_cur) / scalar_product(r_prev, r_prev);
-        Vector z_cur = sum(multiply(z_prev, beta_k), r_cur);
+        double beta = scalar_product(r_cur, r_cur) / scalar_product(r_prev, r_prev);
+        Vector z_cur = sum(multiply(z_prev, beta), r_cur);
         if (scalar_product(r_cur, r_cur) / scalar_product(b, b) < eps * eps) {
             return x_cur;
         }

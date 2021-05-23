@@ -6,6 +6,7 @@
 \usepackage[english,russian]{babel}
 \usepackage{hyperref}
 \usepackage{graphicx}
+\usepackage[table,xcdraw]{xcolor}
 
 \hypersetup{
     colorlinks=true,
@@ -89,7 +90,7 @@
     \item Массивы al и au - вещественные массивы, которые хранят внедиагональные элементы нижнего (по строкам) и верхнего (по столбцам) треугольника матрицы.
     \item Массив ia[n] хранит информацию о профиле. Он содержит указатели начала строк (столбцов) нижнего (верхнего) треугольника в массиве al (au). Индексный массив ia формируется следующим образом:
 \begin{itemize}
-    \item первые два элемента индексного массива ia всегда равны 1: ia[1] = ia[2] = 1, так как в первой строке в нижнем треугольнике нет внедиагональных элементов
+    \item первые два элемента индексного массива ia всегда равны 1: ia[0] = ia[1] = 0, так как в первой строке в нижнем треугольнике нет внедиагональных элементов
     \item к элементу ia[k] добавляется количество элементов в профиле k -ой строки и получается элемент ia[k + 1].
 \end{itemize}
     \item di[n] - вещественный массив. Он хранит все диагональные элементы.
@@ -103,6 +104,7 @@
     \item Вещественные массивы al и au, которые хранят внедиагональные элементы нижнего (по строкам) и верхнего (по столбцам) треугольника матрицы.
     \item Целочисленный массив ja хранит номера столбцов (строк) внедиагональных элементов нижнего (верхнего) треугольника матрицы.
     \item Целочисленный массив ia[n] хранит указатели начала строк (столбцов) в массивах ja , al и au.
+    \item di[n] - вещественный массив. Он хранит все диагональные элементы.
 \end{itemize}
 
 \section{Решение СЛАУ}
@@ -121,5 +123,376 @@
 
 \subsection{LU -  разложение}
 
+Разложение LU:
+\begin{itemize}
+    \item $L_{ii} = A_{ii} - \sum\limits_{k = 1}^{i - 1} L_{ik}U_{ki}$
+    \item $U_{ii} = 1$
+    \item $L_{ij} = A_{ij} - \sum\limits_{k = 1}^{j - 1} L_{ik}U_{kj}, j = 1\dots i - 1$
+    \item $L_{ji} = \dfrac{1}{L_{jj}}\left(A_{ji} - \sum\limits_{k = 1}^{j - 1} L_{jk}U_{ki}, j = 1\dots i - 1)\right)$
+\end{itemize}
+Алгоритм решения СЛАУ:
+\begin{enumerate}
+    \item Находим L и U из матрицы A
+    \item Прямым ходом Гаусса решаем Ly = b, находим y
+    \item Обратным ходом решаем Ux = y, находим x
+\end{enumerate}
+
+\subsection{Использование МСГ для решения СЛАУ}
+
+Можно использовать МСГ для решения СЛАУ с симметричной положительно определенной матрицей А. Нам нужно найти решение уравнение Ax - b = 0 - это градиент функции $f(x) = \frac{1}{2}\left(Ax, x\right) - \left(b, x\right)$, следовательно решение СЛАУ можно свести к минимизации f(x).
+
+\underline{Алгоритм:}
+\begin{enumerate}
+    \item Подготовка перед итерационным процессом:
+    \begin{itemize}
+        \item Выберем начальное приближение $x^{0}$
+        \item $r^{0} = b - Ax^{0}$
+        \item $z^{0} = r^{0}$
+    \end{itemize}
+    \item k-ая итерация метода:
+    \begin{itemize}
+    \item ${\displaystyle \alpha _{k}={\frac {(r^{k-1},r^{k-1})}{(Az^{k-1},z^{k-1})}}}$
+        \item $x^k = x^{k-1} + \alpha_k z^{k-1}$
+        \item $r^k = r^{k-1} - \alpha_k A z^{k-1}$
+        \item $\beta_k = \frac{(r^k, r^k)}{(r^{k-1}, r^{k-1})}$
+        \item ${\displaystyle z^{k}=r^{k}+\beta _{k}z^{k-1}}$
+    \end{itemize}
+\end{enumerate}
+
+\section{Результаты исследований}
+
+\clearpage
+
+\begin{table}[]
+\centering
+\caption{Гаусс на основе LU-разложения на матрицах Гильберта}
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor[HTML]{C9FB98} 
+n     & $\|x^* - x_k\|$            & $\dfrac{\|x^* - x_k\|}{\|x^*\|}$           \\ \hline
+\rowcolor[HTML]{EEFB98} 
+3    & 2.625108e-14                                              & 7.015897e-15 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+4    & 8.830921e-13                                              & 1.612298e-13 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+5    & 3.558406e-11                                              & 4.798154e-12 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+6    & 2.319962e-11                                              & 2.431981e-12 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+7    & 2.009583e-08                                              & 1.698407e-09 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+8    & 1.333407e-06                                              & 9.335716e-08 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+9    & 7.270362e-05                                              & 4.306591e-06 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+10   & 3.503464e-03                                              & 1.785531e-04 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+20   & 8.003411e+02                                              & 1.493943e+01 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+30   & 1.081093e+03                                              & 1.111814e+01 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+40   & 5.560919e+03                                              & 3.737299e+01 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+50   & 2.138525e+04                                              & 1.032189e+02 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+100  & 6.160375e+04                                              & 1.059069e+02 \\ \hline
+\rowcolor[HTML]{EEFB98} 
+1000 & 3.386377e+08                                              & 1.853405e+04 \\ \hline
+\end{tabular}
+\end{table}
+
+Матрицы Гильберта являются стандартным примером плохо обусловленных матриц, число обусловленности возрастает как $O((1+{\sqrt  {2}})^{{4n}}/{\sqrt{n}})$. Именно поэтому даже при небольших n невязка велика.
+
+
+
+\clearpage
+
+\begin{table}[]
+\centering
+\caption{Гаусс на основе LU-разложения на матрицах с диагональным преобладанием}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{FFE5B4} 
+n    & k  &   $\|x^* - x_k\|$           &       $\dfrac{\|x^* - x_k\|}{\|x^*\|}$       \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 0  & 1.306113e-13 & 6.656567e-15 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 1  & 1.113850e-12 & 5.676703e-14 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 2  & 1.357311e-11 & 6.917498e-13 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 3  & 8.940309e-11 & 4.556404e-12 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 4  & 1.227695e-09 & 6.256913e-11 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 5  & 1.644495e-08 & 8.381121e-10 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 6  & 8.972282e-08 & 4.572698e-09 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 7  & 1.401666e-06 & 7.143552e-08 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 8  & 2.194633e-05 & 1.118488e-06 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 9  & 8.997474e-05 & 4.585538e-06 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+10   & 10 & 1.640537e-03 & 8.360949e-05 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 0  & 6.364530e-10 & 1.094166e-12 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 1  & 4.825382e-09 & 8.295615e-12 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 2  & 3.058891e-08 & 5.258730e-11 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 3  & 2.108344e-07 & 3.624585e-10 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 4  & 2.877851e-06 & 4.947493e-09 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 5  & 5.980700e-06 & 1.028179e-08 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 6  & 1.293710e-04 & 2.224098e-07 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 7  & 1.217430e-03 & 2.092960e-06 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 8  & 2.897889e-02 & 4.981941e-05 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 9  & 2.569926e-01 & 4.418120e-04 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+100  & 10 & 2.680254e+00 & 4.607791e-03 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 0  & 6.124098e-07 & 3.351793e-11 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 1  & 8.628147e-06 & 4.722289e-10 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 2  & 9.231194e-05 & 5.052344e-09 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 3  & 1.615442e-03 & 8.841512e-08 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 4  & 7.150361e-03 & 3.913479e-07 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 5  & 2.549932e-01 & 1.395609e-05 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 6  & 7.899812e-01 & 4.323662e-05 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 7  & 1.701534e+01 & 9.312704e-04 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 8  & 2.542212e+01 & 1.391383e-03 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 9  & 1.187467e+03 & 6.499153e-02 \\ \hline
+\rowcolor[HTML]{FDEED9} 
+1000 & 10 & 9.924544e+03 & 5.431823e-01 \\ \hline
+\end{tabular}
+\end{table}
+
+\clearpage
+
+\begin{table}[]
+\centering
+\caption{Метод Гаусса с выбором ведущего элемента на матрицах с диагональным преобладанием}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{FFE9F5} 
+n    & k  &   $\|x^* - x_k\|$           &       $\dfrac{\|x^* - x_k\|}{\|x^*\|}$       \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 0  & 1.323308e-13 & 6.744200e-15 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 1  & 5.093242e-13 & 2.595757e-14 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 2  & 1.452915e-11 & 7.404738e-13 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 3  & 1.785659e-10 & 9.100563e-12 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 4  & 7.609669e-11 & 3.878247e-12 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 5  & 2.750950e-08 & 1.402014e-09 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 6  & 2.090429e-07 & 1.065381e-08 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 7  & 3.747852e-07 & 1.910082e-08 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 8  & 3.320164e-06 & 1.692112e-07 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 9  & 3.660984e-05 & 1.865810e-06 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+10   & 10 & 5.416534e-04 & 2.760521e-05 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 0  & 6.072080e-10 & 1.043889e-12 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 1  & 2.574989e-09 & 4.426825e-12 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 2  & 4.272554e-08 & 7.345215e-11 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 3  & 2.570235e-07 & 4.418652e-10 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 4  & 3.726496e-06 & 6.406451e-09 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 5  & 2.684952e-05 & 4.615868e-08 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 6  & 4.180415e-04 & 7.186813e-07 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 7  & 6.500045e-03 & 1.117463e-05 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 8  & 3.351292e-02 & 5.761415e-05 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 9  & 2.643501e-01 & 4.544608e-04 \\ \hline
+\rowcolor[HTML]{FFE9F5} 
+100  & 10 & 4.798962e-01 & 8.250196e-04 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 0  & 1.346156e-06 & 7.367674e-11 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 1  & 1.800755e-05 & 9.855748e-10 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 2  & 1.018017e-04 & 5.571728e-09 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 3  & 5.166266e-04 & 2.827560e-08 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 4  & 1.454307e-02 & 7.959598e-07 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 5  & 9.213756e-02 & 5.042800e-06 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 6  & 1.780244e+00 & 9.743490e-05 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 7  & 1.352157e+01 & 7.400518e-04 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 8  & 6.053637e+01 & 3.313229e-03 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 9  & 1.527310e+03 & 8.359154e-02 \\ \hline
+\rowcolor[HTML]{F1E9FF} 
+1000 & 10 & 6.863735e+03 & 3.756605e-01 \\ \hline
+\end{tabular}
+\end{table}
+
+\clearpage
+
+\begin{table}[]
+\centering
+\caption{Метод Гаусса с выбором ведущего элемента на матрицах Гильберта}
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor[HTML]{EED4E3} 
+n     & $\|x^* - x_k\|$            & $\dfrac{\|x^* - x_k\|}{\|x^*\|}$           \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+3    & 2.625108e-14                                              & 7.015897e-15 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+4    & 8.830921e-13                                              & 1.612298e-13 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+5    & 3.558406e-11                                              & 4.798154e-12 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+6    & 2.319962e-11                                              & 2.431981e-12 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+7    & 2.009583e-08                                              & 1.698407e-09 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+8    & 1.333407e-06                                              & 9.335716e-08 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+9    & 7.270362e-05                                              & 4.306591e-06 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+10   & 3.503464e-03                                              & 1.785531e-04 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+20   & 8.003411e+02                                              & 1.493943e+01 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+30   & 1.081093e+03                                              & 1.111814e+01 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+40   & 5.560919e+03                                              & 3.737299e+01 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+50   & 2.138525e+04                                              & 1.032189e+02 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+100  & 6.160375e+04                                              & 1.059069e+02 \\ \hline
+\rowcolor[HTML]{F5E5E7} 
+1000 & 3.386377e+08                                              & 1.853405e+04 \\ \hline
+\end{tabular}
+\end{table}
+
+Аналогично предыдущему методу, для матриц Гильберта приводит к очень большим ошибкам даже при небольшой размерности матриц.
+
+\clearpage
+
+
+\begin{table}[]
+\centering
+\caption{МСГ на плотных матрицах Гильберта}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\rowcolor[HTML]{C6FCFF} 
+n    & \begin{tabular}[c]{@{}c@{}}кол-во\\ итераций\end{tabular} & $\|x^* - x_k\|$            & $\dfrac{\|x^* - x_k\|}{\|x^*\|}$            & cond(A)      \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+10   & 5                                                         & 3.178324e-01 & 1.619824e-02 & 2.032544e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+20   & 6                                                         & 7.960770e-01 & 1.485984e-02 & 1.995758e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+30   & 8                                                         & 8.950385e-01 & 9.204728e-03 & 5.751244e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+40   & 8                                                         & 2.043063e+00 & 1.373071e-02 & 2.123930e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+50   & 10                                                        & 1.455476e+00 & 7.025059e-03 & 9.638469e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+100  & 12                                                        & 4.095343e+00 & 7.040560e-03 & 7.703249e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+200  & 14                                                        & 1.137471e+01 & 6.939539e-03 & 6.666093e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+300  & 14                                                        & 3.060519e+01 & 1.017629e-02 & 2.860521e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+400  & 14                                                        & 5.966772e+01 & 1.289427e-02 & 1.526146e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+500  & 17                                                        & 5.331629e+01 & 8.247355e-03 & 4.310517e+05 \\ \hline
+\rowcolor[HTML]{EBFCFF} 
+1000 & 18                                                        & 1.440971e+02 & 7.886610e-03 & 1.205901e+05 \\ \hline
+\end{tabular}
+\end{table}
+
+Заметим, что в отличие от методов Гаусса, МСГ абсолютная и относительная погрешность существенно меньше, а абсолютная погрешность линейно зависит от размерности.
+
+\clearpage
+
+\begin{table}[]
+\centering
+\caption{МСГ на матрице с диагональным преобладанием}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\rowcolor[HTML]{BCB8CE} 
+n    & \begin{tabular}[c]{@{}c@{}}кол-во\\ итераций\end{tabular} & $\|x^* - x_k\|$            & $\dfrac{\|x^* - x_k\|}{\|x^*\|}$            & cond(A)      \\ \hline
+\rowcolor[HTML]{D5DDEF} 
+10   & 9                                                         & 5.404132e-14 & 2.754201e-15 & 4.166323e+00 \\ \hline
+\rowcolor[HTML]{D5DDEF} 
+100  & 12                                                        & 1.403758e-05 & 2.413287e-08 & 4.986249e-01 \\ \hline
+\rowcolor[HTML]{D5DDEF} 
+1000 & 10                                                        & 1.999675e-04 & 1.094446e-08 & 5.053610e-01 \\ \hline
+\rowcolor[HTML]{D5DDEF} 
+10000 & 67                                                        & 5.213623e-02 & 3.257148-07 & 3.490549e+00 \\ \hline
+\rowcolor[HTML]{D5DDEF} 
+100000 & 72                                                        & 2.073174e+00 & 1.135515-07 & 1.752933e+00 \\ \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[]
+\centering
+\caption{МСГ на матрице с обратным знаком внедиагональных элементов}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\rowcolor[HTML]{BA7735} 
+n    & \begin{tabular}[c]{@{}c@{}}кол-во\\ итераций\end{tabular} & $\|x^* - x_k\|$            & $\dfrac{\|x^* - x_k\|}{\|x^*\|}$            & cond(A)      \\ \hline
+\rowcolor[HTML]{EFD091} 
+10   & 9                                                         & 1.601063e-12 & 8.159773e-14 & 6.672343e+01 \\ \hline
+\rowcolor[HTML]{EFD091} 
+100  & 12                                                        & 7.113634e-06 & 1.222949e-08 & 5.021166e-01 \\ \hline
+\rowcolor[HTML]{EFD091} 
+1000 & 10                                                        & 1.654867e-04 & 9.057290e-09 & 4.988307e-01 \\ \hline
+\rowcolor[HTML]{EFD091} 
+10000 & 54                                                        & 1.958591e-01 & 9.124046-07 & 1.784023+00 \\ \hline
+\rowcolor[HTML]{EFD091} 
+100000 & 81                                                        & 3.197423e+00 & 9.328380e-07 & 1.784023e+00 \\ \hline
+\end{tabular}
+\end{table}
+
+\clearpage
+
+\section{Выводы}
+
+Из таблиц можно было сделать вывод, что порядок погрешностей методов Гаусса совпадают.
+
+Если сравнивать методы на матрицах Гильберта, можно заметить, что при использовании МСГ погрешности существенно меньше, а при использовании  методов Гаусса мы видим экспоненциальный рост относительной погрешности.
+
+Минус МСГ для решения СЛАУ - применимо только для симметричных матриц, но при этом, в случае хорошо обусловленных матриц за небольшое количество итераций, из чего следует, что на матрицах произвольно обусловленных, количество итераций получается порядка квадрата размерности.
+
+При том, что порядок погрешностей методов Гаусса совпадает, прямой ход с выбором ведущего элемента работает за $\mathcal{O}(n^2) + \dfrac{n^3}{3}$, a с предварительно посчитанным LU-разложением — за $\mathcal{O}(n^2)$, получается, что второй алгоритм эффективнее для фиксированной матрицей.
 
 \end{document}

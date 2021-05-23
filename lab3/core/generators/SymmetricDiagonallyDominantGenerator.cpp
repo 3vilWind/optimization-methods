@@ -45,7 +45,9 @@ DenseMatrix generateSymmetricDiagonallyDominantDenseMatrix(size_t n, bool invert
 
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = 0; j < i; ++j) {
-            A[i][j] = dis(gen);
+            double x = dis(gen);
+            A[i][j] = x;
+            A[j][i] = x;
         }
     }
 

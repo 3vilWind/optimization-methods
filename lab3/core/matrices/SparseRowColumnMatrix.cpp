@@ -61,3 +61,19 @@ void SparseRowColumnMatrix::set(size_t x, size_t y, double value) {
 size_t SparseRowColumnMatrix::size() const {
     return diagonal.size();
 }
+
+std::vector<double> SparseRowColumnMatrix::multiply(std::vector<double> &v) {
+    size_t pos = 0;
+    std::vector<double> ans(v.size(), 0);
+    for (size_t i = 0; i < v.size(); ++i) {
+        size_t cnt = this->indexFirst[i + 1] - this->indexFirst[i];
+        for (size_t j = pos; j < cnt + pos; ++j){
+            size_t col = this->indexNonZero[j];
+            ans[col] += this->columnUpperProfile[j] * v[i];
+            ans[i] += this->rowLowerProfile[j] * v[col];
+        }
+        ans[i] += this->diagonal[i] * v[i];
+        pos += cnt;
+    }
+    return ans;
+}

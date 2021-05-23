@@ -18,5 +18,7 @@ public:
 
     void set(size_t y, size_t x, double value) override;
 
+    std::vector<double> multiply(std::vector<double> &v);
+
     size_t size() const override;
 };

@@ -18,6 +18,6 @@ TEST(GaussPivotingInPlaceSolverTests, solver) {
     std::vector<double> result = {1, 2, 3};
 
     GaussPivotingInPlaceSolverTest solver;
-    auto r = solver.solve(denseMatrix, b);
+    auto r = solver.solve(denseMatrix, b, 0);
     expectEqualVectors(r, result);
 }

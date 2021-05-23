@@ -47,7 +47,7 @@ TEST(LUInPlaceSolverTests, solver) {
     std::vector<double> result = {1, 2, 3};
 
     LUInPlaceSolverTest solver;
-    auto r = solver.solve(denseMatrix, b);
+    auto r = solver.solve(denseMatrix, b, 0);
     expectEqualVectors(r, result);
 }
 
@@ -62,6 +62,6 @@ TEST(LUInPlaceSolverTests, solverSymmetricProfile) {
     std::vector<double> result = {1, 2, 3};
 
     LUInPlaceSolverTest solver;
-    auto r = solver.solve(denseMatrix, b);
+    auto r = solver.solve(denseMatrix, b, 0);
     expectEqualVectors(r, result);
 }

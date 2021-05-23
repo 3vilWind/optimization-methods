@@ -19,6 +19,6 @@ TEST(ConjugateGradientInPlaceSolverTests, solver) {
     std::vector<double> result = {3, 5, 7};
 
     ConjugateGradientInPlaceSolver solver;
-    auto r = solver.solve(sparseMatrix, b);
-    expectEqualVectors(r, result);
+    auto r = solver.solve(sparseMatrix, b, 1e-7);
+    expectEqualVectors(r, result, 1e-7);
 }

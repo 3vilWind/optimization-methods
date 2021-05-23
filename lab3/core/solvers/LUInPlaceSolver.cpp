@@ -35,7 +35,7 @@ std::tuple<LWrapperMatrix, UWrapperMatrix> LUInPlaceSolver::LUDecompose(Matrix &
     return std::make_tuple(LWrapperMatrix(matrix), UWrapperMatrix(matrix));
 }
 
-std::vector<double> LUInPlaceSolver::solve(Matrix &a, std::vector<double> b) {
+std::vector<double> LUInPlaceSolver::solve(Matrix &a, std::vector<double> b, double epsilon) {
     auto lu = LUDecompose(a);
     LWrapperMatrix l = std::get<0>(lu);
     UWrapperMatrix u = std::get<1>(lu);

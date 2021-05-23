@@ -45,6 +45,33 @@ void deserialize(SymmetricProfileMatrix &matrix, const std::string &path) {
     fclose(f);
 }
 
+void serialize(const DenseMatrix &matrix, const std::string &path) {
+    FILE *f = fopen(path.c_str(), "wb");
+
+    size_t n = matrix.size();
+    fwrite(&n, sizeof(size_t), 1, f);
+
+    for (int i = 0; i < n; ++i) {
+        fwrite(matrix.matrix[i].data(), sizeof(double), n, f);
+    }
+
+    fclose(f);
+}
+
+void deserialize(DenseMatrix &matrix, const std::string &path) {
+    FILE *f = fopen(path.c_str(), "rb");
+
+    size_t n;
+
+    fread(&n, sizeof(size_t), 1, f);
+    matrix.matrix.resize(n, std::vector<double>(n, 0));
+    for (int i = 0; i < n; ++i) {
+        fread(matrix.matrix[i].data(), sizeof(double), n, f);
+    }
+
+    fclose(f);
+}
+
 
 void serialize(const std::vector<double> &vec, const std::string &path) {
     FILE *f = fopen(path.c_str(), "wb");

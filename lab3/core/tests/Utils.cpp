@@ -11,11 +11,11 @@ void expectEqualMatrices(const Matrix &a, const Matrix &b) {
     }
 }
 
-void expectEqualVectors(const std::vector<double> &a, const std::vector<double> &b) {
+void expectEqualVectors(const std::vector<double> &a, const std::vector<double> &b, double epsilon) {
     EXPECT_EQ(a.size(), b.size());
 
     for (int i = 0; i < a.size(); ++i) {
-        EXPECT_DOUBLE_EQ(a[i], b[i]);
+        EXPECT_TRUE(abs(a[i] - b[i]) <= epsilon);
     }
 }
 

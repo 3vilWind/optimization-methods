@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 
-std::vector<double> GaussPivotingInPlaceSolver::solve(Matrix &a, std::vector<double> b) {
+std::vector<double> GaussPivotingInPlaceSolver::solve(Matrix &a, std::vector<double> b, double epsilon) {
     if (typeid(a) != typeid(DenseMatrix)) {
         throw std::runtime_error("Only Dense Matrices are supported!");
     }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <cmath>
 
 
 std::vector<double> subtract(std::vector<double> a, const std::vector<double> &b) {

@@ -1,5 +1,5 @@
 #include "ConjugateGradientInPlaceSolver.h"
-#include "../matrices/SparseRowColumnMatrix.h"
+#include "../matrices/SymmetricSparseRowColumnMatrix.h"
 #include <vector>
 #include <cmath>
 #include <stdexcept>
@@ -7,10 +7,10 @@
 #include "VectorUtils.h"
 
 std::vector<double> ConjugateGradientInPlaceSolver::solve(Matrix &a, std::vector<double> b, double epsilon) {
-    if (typeid(a) != typeid(SparseRowColumnMatrix)) {
+    if (typeid(a) != typeid(SymmetricSparseRowColumnMatrix)) {
         throw std::runtime_error("Only Sparse Matrices are supported!");
     }
-    auto &matrix = dynamic_cast<SparseRowColumnMatrix &>(a);
+    auto &matrix = dynamic_cast<SymmetricSparseRowColumnMatrix &>(a);
     Vector x_prev(a.size(), 0);
     x_prev[0] = 1;
     Vector mx = matrix.multiply(x_prev);
@@ -32,6 +32,5 @@ std::vector<double> ConjugateGradientInPlaceSolver::solve(Matrix &a, std::vector
         r_prev = r_cur;
     }
     return x_prev;
-
 }
 

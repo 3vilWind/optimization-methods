@@ -8,6 +8,7 @@
 #include "solvers/LUInPlaceSolver.h"
 #include "solvers/GaussPivotingInPlaceSolver.h"
 #include "solvers/VectorUtils.h"
+#include "solvers/ConjugateGradientInPlaceSolver.h"
 
 
 std::tuple<double, double> getError(const std::vector<std::vector<double>> &results) {
@@ -30,15 +31,21 @@ std::tuple<double, double> getError(const std::vector<std::vector<double>> &resu
 
 
 void printDDMResults(const std::vector<std::vector<double>> &results, size_t n, size_t k) {
-    auto [absolute, relative] = getError(results);
+    auto[absolute, relative] = getError(results);
 
     printf("%u\t%u\t%e\t%e\n", n, k, absolute, relative);
 }
 
 
 void printHilbertResults(const std::vector<std::vector<double>> &results, size_t n) {
-    auto [absolute, relative] = getError(results);
+    auto[absolute, relative] = getError(results);
 
+    printf("%u\t%e\t%e\n", n, absolute, relative);
+}
+
+
+void printSDDMResults(const std::vector<std::vector<double>> &results, size_t n) {
+    auto[absolute, relative] = getError(results);
     printf("%u\t%e\t%e\n", n, absolute, relative);
 }
 
@@ -65,6 +72,27 @@ void loadDense(const std::filesystem::path &path, DenseMatrix &a, std::vector<do
 }
 
 
+void loadSparse(const std::filesystem::path &path, SymmetricSparseRowColumnMatrix &a, std::vector<double> &b) {
+    auto aPath = path;
+    aPath.append("sparse_a.dat");
+    auto bPath = path;
+    bPath.append("sparse_b.dat");
+
+    deserialize(a, aPath.string());
+    deserialize(b, bPath.string());
+}
+
+
+std::vector<double> loadSparseSolveByCG(const std::filesystem::path &path) {
+    SymmetricSparseRowColumnMatrix a;
+    std::vector<double> b;
+    loadSparse(path, a, b);
+
+    ConjugateGradientInPlaceSolver conjugateGradientInPlaceSolver;
+    return conjugateGradientInPlaceSolver.solve(a, b, 1e-7);
+}
+
+
 std::vector<double> loadSPMSolveByLU(const std::filesystem::path &path) {
     SymmetricProfileMatrix a;
     std::vector<double> b;
@@ -85,6 +113,25 @@ std::vector<double> loadDenseSolveByGauss(const std::filesystem::path &path) {
 }
 
 typedef std::function<std::vector<double>(const std::filesystem::path &)> LoadSolve;
+
+
+void loadSolveSDDM(std::filesystem::path path, const LoadSolve &loadSolve) {
+    path.append("symmetric_diagonally_dominant");
+
+    std::vector<size_t> ns{10, 100, 1000, 10000};
+
+    for (size_t n: ns) {
+        auto expectedResult = generateIncrementalVector(n);
+            std::vector<std::vector<double>> results;
+            for (int i = 0; i < 2; ++i) {
+                auto fullPath = path;
+                fullPath.append(std::to_string(n) + "_" + std::to_string(i));
+
+                results.emplace_back(loadSolve(fullPath));
+                printSDDMResults(results, n);
+        }
+    }
+}
 
 
 void loadSolveDDM(std::filesystem::path path, const LoadSolve &loadSolve) {
@@ -130,8 +177,8 @@ void loadSolveHilbert(std::filesystem::path path, const LoadSolve &loadSolve) {
 
 int main() {
     std::filesystem::path basePath = "./linear_systems/";
-    loadSolveDDM(basePath, loadDenseSolveByGauss);
-    loadSolveHilbert(basePath, loadSPMSolveByLU);
-
+//    loadSolveDDM(basePath, loadDenseSolveByGauss);
+//    loadSolveHilbert(basePath, loadSPMSolveByLU);
+    loadSolveSDDM(basePath, loadSparseSolveByCG);
     return 0;
 }

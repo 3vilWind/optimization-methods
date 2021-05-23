@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../matrices/DenseMatrix.h"
+#include "../matrices/SymmetricSparseRowColumnMatrix.h"
 
 
-DenseMatrix generateSymmetricDiagonallyDominantMatrix(size_t n, size_t k);
+SymmetricSparseRowColumnMatrix generateSymmetricDiagonallyDominantMatrix(size_t n, bool invertSignOffDiagonal);
+
+DenseMatrix generateSymmetricDiagonallyDominantDenseMatrix(size_t n, bool invertSignOffDiagonal);

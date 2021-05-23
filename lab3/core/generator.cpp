@@ -5,7 +5,20 @@
 #include "generators/Utils.h"
 #include "matrices/SymmetricProfileMatrix.h"
 #include "matrices/Serializers.h"
+#include "generators/SymmetricDiagonallyDominantGenerator.h"
 #include <functional>
+
+
+void
+saveSparse(const SymmetricSparseRowColumnMatrix &a, const std::vector<double> &b, const std::filesystem::path &path) {
+    auto aPath = path;
+    aPath.append("sparse_a.dat");
+    auto bPath = path;
+    bPath.append("sparse_b.dat");
+
+    serialize(a, aPath.string());
+    serialize(b, bPath.string());
+}
 
 
 void saveSPM(const DenseMatrix &a, const std::vector<double> &b, const std::filesystem::path &path) {
@@ -83,14 +96,44 @@ void generateHilbert(std::filesystem::path type_path, const SaveFunction &save) 
     }
 }
 
+void generateSymmetricDiagonallyDominant(std::filesystem::path type_path, bool invertSignOffDiagonal) {
+    std::string p("symmetric_diagonally_dominant");
+    p += (invertSignOffDiagonal ? "_inv" : "");
+    type_path.append(p);
+
+    std::vector<size_t> ns{10000};
+
+    for (size_t n: ns) {
+        for (int i = 0; i < 2; ++i) {
+            auto expectedResult = generateIncrementalVector(n);
+            auto a = generateSymmetricDiagonallyDominantDenseMatrix(n, invertSignOffDiagonal);
+            printf("Matrix generated\n");
+            auto b = generateB(a, expectedResult);
+            printf("b generated\n");
+
+            auto path = type_path;
+            path.append(std::to_string(n) + "_" + std::to_string(i));
+
+            std::filesystem::create_directories(path);
+            auto sparse = SymmetricSparseRowColumnMatrix(a);
+            saveSparse(sparse, b, path);
+
+            printf("Generated SDDM n=%u\n", n);
+        }
+    }
+
+}
+
 
 int main() {
     std::filesystem::path basePath = "./linear_systems/";
-    generateDiagonallyDominant(basePath, saveSPM);
-    generateHilbert(basePath, saveSPM);
+//    generateDiagonallyDominant(basePath, saveSPM);
+//    generateHilbert(basePath, saveSPM);
 
-    generateDiagonallyDominant(basePath, saveDense);
-    generateHilbert(basePath, saveDense);
+//    generateDiagonallyDominant(basePath, saveDense);
+//    generateHilbert(basePath, saveDense);
+
+    generateSymmetricDiagonallyDominant(basePath, false);
 
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "../matrices/SparseRowColumnMatrix.h"
+#include "../matrices/SymmetricSparseRowColumnMatrix.h"
 #include "../solvers/ConjugateGradientInPlaceSolver.h"
 #include <gtest/gtest.h>
 #include "Utils.h"
@@ -14,7 +14,7 @@ TEST(ConjugateGradientInPlaceSolverTests, solver) {
                                     {6, 0, 4},
                                     {2, 4, 3}
                             });
-    SparseRowColumnMatrix sparseMatrix(denseMatrix);
+    SymmetricSparseRowColumnMatrix sparseMatrix(denseMatrix);
     std::vector<double> b = {47, 46, 47};
     std::vector<double> result = {3, 5, 7};
 

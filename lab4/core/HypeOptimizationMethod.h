@@ -10,11 +10,12 @@
 struct HypeOptimizationResult {
     Vector result;
     std::vector <Vector> iterations;
-    std::vector <std::map<std::string, std::string>> additional;
+    std::vector <std::map<std::string, double>> additional;
 };
 
 
 class HypeOptimizationMethod {
 public:
     virtual HypeOptimizationResult minimize(const ScalarFunction &f, const Vector& startPoint, double epsilon) const = 0;
+    virtual ~HypeOptimizationMethod() = default;
 };

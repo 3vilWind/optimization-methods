@@ -10,7 +10,7 @@ Vector DescentNewtonMethod::init(const ScalarFunction &f, const Vector &startPoi
 
     auto d = -f.gradient(startPoint);
     auto r = oneDimensionalMinimize(linearSearch, f, startPoint, d, epsilon);
-    result.additional.push_back({{"foundParameter", std::to_string(r)}});
+    (*result.additional.rbegin())["foundParameter"] =  r;
     Vector s(r * d);
     return startPoint + s;
 }
@@ -32,6 +32,6 @@ Vector DescentNewtonMethod::iterationStep(const ScalarFunction &f, const Vector 
     }
 
     double r = oneDimensionalMinimize(linearSearch, f, prevPoint, d, epsilon);
-    result.additional.push_back({{"foundParameter", std::to_string(r)}});
+    (*result.additional.rbegin())["foundParameter"] =  r;
     return d * r;
 }

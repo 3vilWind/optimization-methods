@@ -4,7 +4,8 @@
 #include "Utils.h"
 
 
-Vector DescentNewtonMethod::init(const ScalarFunction &f, const Vector &startPoint, double epsilon, HypeOptimizationResult& result) const {
+Vector DescentNewtonMethod::init(const ScalarFunction &f, const Vector &startPoint, double epsilon,
+                                 HypeOptimizationResult &result) const {
     Brent linearSearch;
 
     auto d = -f.gradient(startPoint);
@@ -14,7 +15,8 @@ Vector DescentNewtonMethod::init(const ScalarFunction &f, const Vector &startPoi
     return startPoint + s;
 }
 
-Vector DescentNewtonMethod::iterationStep(const ScalarFunction &f, const Vector &prevPoint, double epsilon, HypeOptimizationResult& result) const {
+Vector DescentNewtonMethod::iterationStep(const ScalarFunction &f, const Vector &prevPoint, double epsilon,
+                                          HypeOptimizationResult &result) const {
     Brent linearSearch;
     LUInPlaceSolver solver;
 

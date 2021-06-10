@@ -2,7 +2,7 @@
 
 #include "../HypeOptimizationMethod.h"
 
-class BfgshMethod: public HypeOptimizationMethod{
+class BfgshMethod : public HypeOptimizationMethod {
 public:
-    HypeOptimizationResult minimize(const ScalarFunction &f, const Vector& startPoint, double epsilon) const override;
+    HypeOptimizationResult minimize(const ScalarFunction &f, const Vector &startPoint, double epsilon) const override;
 };

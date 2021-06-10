@@ -1,7 +1,7 @@
 #include "Utils.h"
 
 
-double oneDimensionalMinimize(OptimizationMethod& method,
+double oneDimensionalMinimize(OptimizationMethod &method,
                               const ScalarFunction &f,
                               const Vector &x,
                               const Vector &d,

@@ -88,3 +88,7 @@ Vector &Vector::operator+=(const Vector &rhs) {
 Vector operator*(double lhs, Vector rhs) {
     return std::move(rhs) * lhs;
 }
+
+Vector operator-(const Vector &a) {
+    return a.opposite();
+}

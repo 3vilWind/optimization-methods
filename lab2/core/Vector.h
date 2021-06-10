@@ -22,18 +22,31 @@ public:
 
     Vector opposite() const;
 
+    std::vector<double> &data() {
+        return vector;
+    }
+
     std::string to_string() const;
 
     static Vector getRandomVector(size_t size, double k);
 
     std::vector<double> getPlainVector() const;
 
-    friend Vector operator+(Vector lhs, const Vector& rhs);
-    friend Vector operator-(Vector lhs, const Vector& rhs);
-    friend Vector operator*(Vector lhs, double rhs);
-    friend double operator*(const Vector & lhs, const Vector &rhs);
+    friend Vector operator+(Vector lhs, const Vector &rhs);
 
-    Vector& operator+=(const Vector& rhs);
+    friend Vector operator-(Vector lhs, const Vector &rhs);
+
+    friend Vector operator*(Vector lhs, double rhs);
+
+    friend double operator*(const Vector &lhs, const Vector &rhs);
+
+    friend Vector operator-(const Vector &a);
+
+    Vector &operator+=(const Vector &rhs);
 
     friend Vector operator*(double lhs, Vector rhs);
+
+    double &operator[](std::size_t idx) { return vector[idx]; }
+
+    const double &operator[](std::size_t idx) const { return vector[idx]; }
 };

@@ -8,4 +8,5 @@ public:
     virtual double compute(const Vector& x) const = 0;
     virtual Vector gradient(const Vector& x) const = 0;
     virtual DenseMatrix hessian(const Vector& x) const = 0;
+    virtual ~ScalarFunction() = default;
 };

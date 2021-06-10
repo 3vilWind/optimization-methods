@@ -4,9 +4,8 @@
 #include "Utils.h"
 
 
-Vector LinearSearchNewtonMethod::init(const ScalarFunction &f, const Vector &startPoint, double epsilon,
-                                      HypeOptimizationResult &result) const {
-    result.additional.push_back({{"foundParameter", std::to_string(0.0)}});
+Vector LinearSearchNewtonMethod::init(const ScalarFunction &f, const Vector &startPoint, double epsilon, HypeOptimizationResult& result) const {
+    (*result.additional.rbegin())["foundParameter"] =  0.0;
     return startPoint;
 }
 
@@ -20,6 +19,6 @@ Vector LinearSearchNewtonMethod::iterationStep(const ScalarFunction &f, const Ve
     Vector d(solver.solve(h, (-g).data(), epsilon));
 
     auto r = oneDimensionalMinimize(linearSearch, f, prevPoint, d, epsilon);
-    result.additional.push_back({{"foundParameter", std::to_string(r)}});
+    (*result.additional.rbegin())["foundParameter"] =  r;
     return d * r;
 }

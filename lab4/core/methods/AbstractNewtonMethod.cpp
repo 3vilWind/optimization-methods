@@ -8,8 +8,7 @@ AbstractNewtonMethod::minimize(const ScalarFunction &f, const Vector &startPoint
     result.iterations.push_back(x);
     (*result.additional.rbegin())["result"] = f.compute(x);
 
-    bool flag = true;
-    while (flag) {
+    while (true) {
         result.additional.emplace_back();
         Vector delta = iterationStep(f, x, epsilon, result);
         x += delta;
@@ -17,7 +16,7 @@ AbstractNewtonMethod::minimize(const ScalarFunction &f, const Vector &startPoint
         (*result.additional.rbegin())["result"] = f.compute(x);
 
         if (delta.norm() < epsilon)
-            flag = false;
+            break;
     }
     result.result = x;
 

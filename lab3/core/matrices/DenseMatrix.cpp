@@ -28,13 +28,41 @@ DenseMatrix DenseMatrix::identityMatrix(size_t size) {
     return DenseMatrix(matrix);
 }
 
-Vector DenseMatrix::multiply(Vector v) {
+std::vector<double> DenseMatrix::multiply(const std::vector<double> &v) const {
     std::vector<double> ans(v.size(), 0);
     for (size_t i = 0; i < v.size(); ++i) {
         for (size_t j = 0; j < v.size(); ++j) {
-            ans[i] += this->get(i, j) * v.get(j);
+            ans[i] += this->get(i, j) * v[j];
         }
     }
-    return Vector(ans);
+    return ans;
 }
 
+DenseMatrix operator*(DenseMatrix lhs, double rhs) {
+    for (size_t i = 0; i < lhs.size(); ++i) {
+        for (size_t j = 0; j < lhs.size(); ++j) {
+            lhs.set(i, j, lhs.get(i, j) * rhs);
+        }
+    }
+    return lhs;
+}
+
+
+DenseMatrix &DenseMatrix::operator+=(const DenseMatrix &rhs) {
+    for (size_t i = 0; i < size(); ++i) {
+        for (size_t j = 0; j < size(); ++j) {
+            matrix[i][j] += rhs.matrix[i][j];
+        }
+    }
+    return (*this);
+}
+
+
+DenseMatrix &DenseMatrix::operator-=(const DenseMatrix &rhs) {
+    for (size_t i = 0; i < size(); ++i) {
+        for (size_t j = 0; j < size(); ++j) {
+            matrix[i][j] -= rhs.matrix[i][j];
+        }
+    }
+    return (*this);
+}

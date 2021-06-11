@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include "Matrix.h"
-#include "lab2/core/Vector.h"
 
 class DenseMatrix : public Matrix {
     std::vector<std::vector<double>> matrix;
@@ -26,5 +25,9 @@ public:
 
     static DenseMatrix identityMatrix(size_t size);
 
-    Vector multiply(Vector v);
+    std::vector<double> multiply(const std::vector<double>& v) const;
+
+    friend DenseMatrix operator*(DenseMatrix lhs, double rhs);
+    DenseMatrix &operator+=(const DenseMatrix &rhs);
+    DenseMatrix &operator-=(const DenseMatrix &rhs);
 };

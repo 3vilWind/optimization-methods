@@ -49,4 +49,6 @@ public:
     double &operator[](std::size_t idx) { return vector[idx]; }
 
     const double &operator[](std::size_t idx) const { return vector[idx]; }
+
+    std::vector<std::vector<double>> multiply(const Vector& v) const;
 };

@@ -92,3 +92,14 @@ Vector operator*(double lhs, Vector rhs) {
 Vector operator-(const Vector &a) {
     return a.opposite();
 }
+
+
+std::vector<std::vector<double>> Vector::multiply(const Vector& v) const {
+    std::vector<std::vector<double>> result(size(), std::vector<double>(size(), v.size()));
+    for (int i = 0; i < size(); i++) {
+        for (int j = 0; j < v.size(); j++) {
+            result[i][j] = this->vector[i] * v[j];
+        }
+    }
+    return result;
+}

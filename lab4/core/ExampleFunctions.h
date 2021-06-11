@@ -61,27 +61,15 @@ class F_1_2_2 :
 class F_1_1_1 :
         public ScalarFunction {
     double compute(const Vector &x) const override {
-        return atan(x[0] * x[0]) + x[1] * x[1];
+        return x[0] * x[0] + 4 * x[1] * x[1] + 2 * x[0] * x[1];
     }
 
     Vector gradient(const Vector &x) const override {
-        return Vector({
-                              (2 * x[0]) / (x[0] * x[0] * x[0] * x[0] + 1),
-                              2 * x[1]
-                      });
+        return Vector({((2.0 * x[0]) + (2.0 * x[1])), ((2.0 * x[0]) + (8.0 * x[1]))});
     }
 
     DenseMatrix hessian(const Vector &x) const override {
-        double m = x[0] * x[0] * x[0] * x[0] + 1;
-        return DenseMatrix({
-                                   {
-                                           2 / (x[0] * x[0] * x[0] * x[0] + 1) -
-                                           (8 * x[0] * x[0] * x[0] * x[0]) / (m * m), 0
-                                   },
-                                   {
-                                           0,                                         2
-                                   }
-                           });
+        return DenseMatrix({{2.0, 2.0}, {2.0, 8.0}});
     }
 };
 

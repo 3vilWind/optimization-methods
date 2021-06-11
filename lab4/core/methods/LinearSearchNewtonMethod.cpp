@@ -11,14 +11,13 @@ Vector LinearSearchNewtonMethod::init(const ScalarFunction &f, const Vector &sta
 
 Vector LinearSearchNewtonMethod::iterationStep(const ScalarFunction &f, const Vector &prevPoint, double epsilon,
                                                HypeOptimizationResult &result) const {
-    Brent linearSearch;
     LUInPlaceSolver solver;
 
     auto g = f.gradient(prevPoint);
     auto h = f.hessian(prevPoint);
     Vector d(solver.solve(h, (-g).data(), epsilon));
 
-    auto r = oneDimensionalMinimize(linearSearch, f, prevPoint, d, epsilon);
+    auto r = oneDimensionalMinimize(f, prevPoint, d, epsilon);
     (*result.additional.rbegin())["foundParameter"] =  r;
     return d * r;
 }

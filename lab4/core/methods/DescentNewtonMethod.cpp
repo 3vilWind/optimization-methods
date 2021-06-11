@@ -5,10 +5,12 @@
 
 Vector DescentNewtonMethod::init(const ScalarFunction &f, const Vector &startPoint, double epsilon,
                                  HypeOptimizationResult &result) const {
-
-
+    result.iterations.push_back(startPoint);
+    (*result.additional.rbegin())["result"] = f.compute(startPoint);
+    (*result.additional.rbegin())["foundParameter"] =  0;
     auto d = -f.gradient(startPoint);
     auto r = oneDimensionalMinimize(f, startPoint, d, epsilon);
+    result.additional.emplace_back();
     (*result.additional.rbegin())["foundParameter"] =  r;
     Vector s(r * d);
     return startPoint + s;

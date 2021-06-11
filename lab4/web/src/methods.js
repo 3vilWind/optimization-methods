@@ -55,7 +55,7 @@ class OptimizationMethod {
 
     getLevelCommand(f, z, name) {
         if (f === "F_1_1_1") {
-            return `${name}: atan(x^2) + y^2 = ${z.toFixed(10)}`;
+            return `${name}: x^2 +4y^2 +2xy = ${z.toFixed(10)}`;
         } else if (f === "F_1_1_2") {
             return `${name}: 0.25*x^4+y^4+x^2 = ${z.toFixed(10)}`;
         } else if (f === "F_1_2_1") {

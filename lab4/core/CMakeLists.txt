@@ -33,4 +33,7 @@ add_executable(core main.cpp
         methods/Utils.cpp methods/Utils.h
         ExampleFunctions.h
         methods/BfgshMethod.cpp methods/BfgshMethod.h
-        methods/AbstractNewtonMethod.cpp methods/AbstractNewtonMethod.h)
+        methods/AbstractNewtonMethod.cpp methods/AbstractNewtonMethod.h
+        methods/PowellMethod.cpp methods/PowellMethod.h
+        methods/MarquardtMethod.cpp methods/MarquardtMethod.h
+        methods/MarquardtCholeskyMethod.cpp methods/MarquardtCholeskyMethod.h)

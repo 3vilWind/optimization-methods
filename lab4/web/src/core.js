@@ -3014,7 +3014,8 @@ var asmLibraryArg = {
   "invoke_di": invoke_di,
   "invoke_did": invoke_did,
   "invoke_dii": invoke_dii,
-  "invoke_diiiid": invoke_diiiid,
+  "invoke_diii": invoke_diii,
+  "invoke_diiid": invoke_diiid,
   "invoke_i": invoke_i,
   "invoke_ii": invoke_ii,
   "invoke_iidi": invoke_iidi,
@@ -3340,10 +3341,21 @@ function invoke_vidi(index,a1,a2,a3) {
   }
 }
 
-function invoke_diiiid(index,a1,a2,a3,a4,a5) {
+function invoke_diii(index,a1,a2,a3) {
   var sp = stackSave();
   try {
-    return wasmTable.get(index)(a1,a2,a3,a4,a5);
+    return wasmTable.get(index)(a1,a2,a3);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0 && e !== 'longjmp') throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_diiid(index,a1,a2,a3,a4) {
+  var sp = stackSave();
+  try {
+    return wasmTable.get(index)(a1,a2,a3,a4);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0 && e !== 'longjmp') throw e;

@@ -47,6 +47,15 @@ DenseMatrix operator*(DenseMatrix lhs, double rhs) {
     return lhs;
 }
 
+DenseMatrix operator+(DenseMatrix lhs, const DenseMatrix &rhs) {
+    for (size_t i = 0; i < lhs.size(); ++i) {
+        for (size_t j = 0; j < lhs.size(); ++j) {
+            lhs.set(i, j, lhs.get(i, j) + rhs.get(i, j));
+        }
+    }
+    return lhs;
+}
+
 
 DenseMatrix &DenseMatrix::operator+=(const DenseMatrix &rhs) {
     for (size_t i = 0; i < size(); ++i) {

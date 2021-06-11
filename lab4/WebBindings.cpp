@@ -9,6 +9,10 @@
 #include "core/methods/ClassicNewtonMethod.h"
 #include "core/methods/LinearSearchNewtonMethod.h"
 #include "core/methods/DescentNewtonMethod.h"
+#include "core/methods/BfgshMethod.h"
+#include "core/methods/PowellMethod.h"
+#include "core/methods/MarquardtMethod.h"
+#include "core/methods/MarquardtCholeskyMethod.h"
 
 
 using json = nlohmann::json;
@@ -132,6 +136,18 @@ std::string callOptimizationMethod(std::string request) {
             break;
         case OptimizationCall::OptimizationMethodEnum::DESCENT_NEWTON:
             method = new DescentNewtonMethod();
+            break;
+        case OptimizationCall::OptimizationMethodEnum::BFGSH:
+            method = new BfgshMethod();
+            break;
+        case OptimizationCall::OptimizationMethodEnum::POWELL:
+            method = new PowellMethod();
+            break;
+        case OptimizationCall::OptimizationMethodEnum::MARQUARDT:
+            method = new MarquardtMethod();
+            break;
+        case OptimizationCall::OptimizationMethodEnum::MARQUARDT_CHOLESKY:
+            method = new MarquardtCholeskyMethod();
             break;
         case OptimizationCall::OptimizationMethodEnum::INVALID:
             return respondError("invalid method");

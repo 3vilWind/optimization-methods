@@ -28,6 +28,7 @@ public:
     std::vector<double> multiply(const std::vector<double>& v) const;
 
     friend DenseMatrix operator*(DenseMatrix lhs, double rhs);
+    friend DenseMatrix operator+(DenseMatrix lhs, const DenseMatrix& rhs);
     DenseMatrix &operator+=(const DenseMatrix &rhs);
     DenseMatrix &operator-=(const DenseMatrix &rhs);
 };

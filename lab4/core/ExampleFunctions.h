@@ -39,21 +39,11 @@ class F_1_2_2 :
     }
 
     Vector gradient(const Vector &x) const override {
-        return Vector({
-                              2 * (200 * x[0] * x[0] * x[0] - 200 * x[0] * x[1] + x[0] - 1),
-                              200 * (x[1] - x[0] * x[0])
-                      });
+        return Vector({((-2.0 * (1.0 + (-1.0 * x[0]))) + (-400.0 * x[0] * ((-1.0 * pow(x[0], 2.0)) + x[1]))), (200.0 * ((-1.0 * pow(x[0], 2.0)) + x[1]))});
     }
 
     DenseMatrix hessian(const Vector &x) const override {
-        return DenseMatrix({
-                                   {
-                                           -400 * (x[1] - x[0] * x[0]) + 800 * x[0] * x[0] + 2, -400 * x[0]
-                                   },
-                                   {
-                                           -400 * x[0],                                         200
-                                   }
-                           });
+        return DenseMatrix({{(2.0 + (800.0 * pow(x[0], 2.0)) + (-400.0 * ((-1.0 * pow(x[0], 2.0)) + x[1]))), (-400.0 * x[0])}, {(-400.0 * x[0]), 200.0}});
     }
 };
 

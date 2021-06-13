@@ -6,49 +6,54 @@ MarquardtCholeskyMethod::minimize(const ScalarFunction &f, const Vector &startPo
     HypeOptimizationResult result;
     LUInPlaceSolver solver;
 
-    double alpha0 = 0;
+    double tau0 = 100;
     double beta = 0.5;
 
     Vector x(startPoint);
     result.iterations.push_back(x);
     result.additional.emplace_back();
-    (*result.additional.rbegin())["tau"] = alpha0;
     (*result.additional.rbegin())["result"] = f.compute(x);
+    (*result.additional.rbegin())["tau"] = tau0;
+    (*result.additional.rbegin())["cholesky"] = 0;
     double tau;
-    bool flag = true;
     Vector g;
     DenseMatrix h;
     while (true) {
-        if (flag) {
-            g = f.gradient(x);
-            h = f.hessian(x);
-            tau = alpha0;
-            result.additional.emplace_back();
-            (*result.additional.rbegin())["cholesky"] = 0;
-            (*result.additional.rbegin())["result"] = f.compute(x);
-        }
+        step2:
+        g = f.gradient(x);
+        h = f.hessian(x);
+        tau = tau0;
 
+        step3:
+        result.additional.emplace_back();
+        (*result.additional.rbegin())["cholesky"] +=1;
         auto kek = h + DenseMatrix::identityMatrix(x.size()) * tau;
         Vector s(solver.solve(kek, (-g).data(), epsilon));
 
+        step4:
+        Vector y(x + s);
+        double fY = f.compute(y);
+
+        step5:
         if (!isPositiveCholesky(kek)) {
             tau = std::max(tau / beta, 1.0);
-            (*result.additional.rbegin())["cholesky"] += 1;
-            (*result.additional.rbegin())["tau"] = tau;
-            flag = false;
-        } else {
-            x += s;
-            result.iterations.push_back(x);
-
-            alpha0 *= beta;
-            flag = true;
-            if (s.norm() < epsilon) {
-                result.additional.emplace_back();
-                (*result.additional.rbegin())["cholesky"] = 0;
-                (*result.additional.rbegin())["result"] = f.compute(x);
-                break;
-            }
+            goto step3;
         }
+
+        step6:
+        x = y;
+        tau0 *= beta;
+
+        result.iterations.push_back(x);
+
+        (*result.additional.rbegin())["tau"] = tau;
+        (*result.additional.rbegin())["result"] = f.compute(x);
+
+        step7:
+        if (s.norm() < epsilon) {
+            break;
+        }
+        goto step2;
     }
     result.result = x;
 

@@ -15,7 +15,6 @@ add_executable(core main.cpp
 
         ../../lab2/core/Vector.h ../../lab2/core/Vector.cpp
         ../../lab2/core/Utils.h ../../lab2/core/Utils.cpp
-        ../../lab2/core/methods/GradientSteepestDescent.h ../../lab2/core/methods/GradientSteepestDescent.cpp
         ../../lab2/core/GradientMethod.h ../../lab2/core/GradientMethod.cpp
         ../../lab2/core/SquareMatrix.h ../../lab2/core/SquareMatrix.cpp
         ../../lab2/core/GradientMethodDetailedResult.h ../../lab2/core/GradientMethodDetailedResult.cpp
